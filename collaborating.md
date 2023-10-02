@@ -38,11 +38,33 @@ git checkout <your branch>
 
 > **Steps on how to easily create and switch to a branch in VS Code will be demonstrated on call.**
 
-## 5. Work on your feature and make sure it works perfectly
+## 5. Running the client or server and installing packages
+
+To run the client, from the root directory, navigate to /client and run
+
+```sh
+npm start
+```
+
+To run the server, remember to work within the environment
+
+```sh
+pipenv install && pipenv shell
+```
+
+To install any packages for the server side
+
+```sh
+pipenv install <package name>
+```
+
+For testing client-server interaction, run client and server on separate terminals (requires a fully working backend).
+
+## 6. Work on your feature and make sure it works perfectly
 
 > This will reduce the time taken during code review and also minimize conflicts.
 
-## 6. Commit your work
+## 7. Commit your work
 
 Please make sure to write meaningful commit messages. Describe what you have done.
 
@@ -54,7 +76,7 @@ git add .
 git commit -m "<your message>"
 ```
 
-## 7. Push your work to YOUR BRANCH
+## 8. Push your work to YOUR BRANCH
 
 If it's the first time you're pushing to this branch, make sure to set upstream with `-u` so you can always use `git push` anytime.
 
@@ -68,15 +90,15 @@ For subsequent pushes to the same branch
 git push
 ```
 
-## 8. Go to GitHub and make a Pull Request to DEVELOPMENT
+## 9. Go to GitHub and make a Pull Request to DEVELOPMENT
 
 > Steps on how to do this will be demonstrated on call.
 
-## 9. Whenever possible, move your task in Trello from Doing to Code Review
+## 10. Whenever possible, move your task in Trello from Doing to Code Review
 
 > Steps on how to do this will be demonstrated on call.
 
-## 10. Fetching changes in development branch
+## 11. Fetching changes in development branch
 
 If there are changes in development [merged changes will be announced] and you want to fetch them, switch to development branch in VS Code and run the following command.
 
@@ -86,11 +108,11 @@ If there are changes in development [merged changes will be announced] and you w
 git fetch
 ```
 
-## 11. Resolve conflicts, if any
+## 12. Resolve conflicts, if any
 
 > Steps on how to do this will be demonstrated on call.
 
-## 12. Switch back to your branch and continue working, or create a new one if need be.
+## 13. Switch back to your branch and continue working, or create a new one if need be.
 
 **If you have any issues, schedule a call with me.**
 

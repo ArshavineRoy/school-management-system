@@ -1,9 +1,11 @@
+import '../App.css';
+
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          School Management System
         </p>
         <a
           className="App-link"
@@ -11,7 +13,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Happy Coding * _ *
         </a>
       </header>
     </div>
