@@ -114,6 +114,14 @@ git fetch
 
 ## 13. Switch back to your branch and continue working, or create a new one if need be.
 
+> Steps on how to do this will be demonstrated on call.
+
+## 14. Merging fetched changes in development to your branch
+
+```sh
+git merge origin/development
+```
+
 **If you have any issues, schedule a call with me.**
 
 **Happy coding!**
