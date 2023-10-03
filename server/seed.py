@@ -40,11 +40,11 @@ cs_units = [
 if __name__ == "__main__":
     with app.app_context():
 
-        # Role.query.delete()
-        # Admin.query.delete()
-        # Instructor.query.delete()
-        # Student.query.delete()
-        # Unit.query.delete()
+        Role.query.delete()
+        Admin.query.delete()
+        Instructor.query.delete()
+        Student.query.delete()
+        Unit.query.delete()
 
         # db.create_all()
 
@@ -112,15 +112,14 @@ if __name__ == "__main__":
 
         units =[]
         for cs_unit in cs_units:
-            for i in range(random.randint(1, 2)):
-                unit=Unit(
-                    unit_code=f'CS {fake.unique.random_int(min=1000, max=1500)}',
-                    name=cs_unit,
-                    student_id = random.choice(students).id,
-                    instructor_id = random.choice(instructors).id,
-                )
+            unit=Unit(
+                unit_code=f'CS {fake.unique.random_int(min=1000, max=1500)}',
+                name=cs_unit,
+                student_id = random.choice(students).id,
+                instructor_id = random.choice(instructors).id,
+            )
 
-                units.append(unit)
+            units.append(unit)
 
         db.session.add_all(units)
         db.session.commit()
