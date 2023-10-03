@@ -11,10 +11,6 @@ class Unit(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
 
-    instructor = db.relationship('Instructor', back_populates='students')
-    student = db.relationship('Student', back_populates='instructors')
-
-
     def __repr__(self):
         return f'Unit(id={self.id}, unit_code={self.unit_code}, name={self.name})'
 

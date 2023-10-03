@@ -40,11 +40,11 @@ cs_units = [
 if __name__ == "__main__":
     with app.app_context():
 
-        Role.query.delete()
-        Admin.query.delete()
-        Instructor.query.delete()
-        Student.query.delete()
-        Unit.query.delete()
+        # Role.query.delete()
+        # Admin.query.delete()
+        # Instructor.query.delete()
+        # Student.query.delete()
+        # Unit.query.delete()
 
         # db.create_all()
 
