@@ -12,3 +12,6 @@ class UserRoles(db.Model):
     student_id = db.Column(db.Integer(), db.ForeignKey('student.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
+
+instructor_role = Role(name="instructor")
+student_role = Role(name="student")
