@@ -4,7 +4,7 @@ from models.unit import Unit
 from models.admin import Admin
 from models.role import Role
 from werkzeug.security import generate_password_hash
-from app_config import app
+from app import app
 from models.dbconfig import db
 
 
