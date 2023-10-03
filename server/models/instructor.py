@@ -16,6 +16,8 @@ class Instructor(db.Model):
     units = db.relationship('Unit', backref='instructor', lazy=True)
     students = db.relationship('Student', secondary='units', backref='instructors')
 
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    role = db.relationship('Role', backref='instructors')
 
     def __repr__(self):
         return f'Instructor(id={self.id}, name={self.name}, email_address={self.email_address})'

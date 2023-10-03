@@ -20,7 +20,8 @@ class Student(db.Model):
     units = db.relationship('Unit', backref='student', lazy=True)
     instructors = db.relationship('Instructor', secondary='units', backref='students')
 
-
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    role = db.relationship('Role', backref='students')
 
     def __repr__(self):
         return f'Student(id={self.id}, name={self.name}, email_address={self.email_address})'
