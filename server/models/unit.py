@@ -6,7 +6,7 @@ class Unit(db.Model):
     __tablename__ = "units"
 
     id = db.Column(db.Integer(), primary_key=True)
-    unit_code = db.Column(db.Integer(), nullable=False)
+    unit_code = db.Column(db.Integer(), nullable=False, unique=True)
     name = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())

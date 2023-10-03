@@ -6,6 +6,7 @@ class Instructor(db.Model):
     __tablename__ = "instructors"
 
     id = db.Column(db.Integer(), primary_key=True)
+    staff_number = db.Column(db.Integer(), nullable=False, unique=True)
     name = db.Column(db.String, nullable=False)
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
@@ -21,6 +22,3 @@ class Instructor(db.Model):
 
     def __repr__(self):
         return f'Instructor(id={self.id}, name={self.name}, email_address={self.email_address})'
-
-    
-    
