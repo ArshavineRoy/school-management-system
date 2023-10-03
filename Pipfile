@@ -20,6 +20,7 @@ flask-restx = "*"
 pip = "*"
 install = "*"
 sqlalchemy-serializer = "*"
+faker = "*"
 
 [dev-packages]
 

@@ -14,11 +14,10 @@ class Instructor(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    units = db.relationship('Unit', backref='instructor', lazy=True)
-    students = db.relationship('Student', secondary='units', backref='instructors')
-
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    students = db.relationship('Unit', back_populates='instructor')
+    
     role = db.relationship('Role', backref='instructors')
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     def __repr__(self):
         return f'Instructor(id={self.id}, name={self.name}, email_address={self.email_address})'

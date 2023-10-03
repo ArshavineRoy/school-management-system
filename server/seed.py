@@ -1,8 +1,8 @@
+from models.unit import Unit
+from models.role import Role
+from models.admin import Admin
 from models.instructor import Instructor
 from models.student import Student
-from models.unit import Unit
-from models.admin import Admin
-from models.role import Role
 from werkzeug.security import generate_password_hash
 from app import app
 from models.dbconfig import db
@@ -40,6 +40,14 @@ cs_units = [
 if __name__ == "__main__":
     with app.app_context():
 
+        Role.query.delete()
+        Admin.query.delete()
+        Instructor.query.delete()
+        Student.query.delete()
+        Unit.query.delete()
+
+        # db.create_all()
+
         print("🦸‍♀️ Seeding roles...")
 
         admin_role = Role(name='Admin')
@@ -57,8 +65,8 @@ if __name__ == "__main__":
 
         admin = Admin(
             name="admin",
-            email="admin@test.com",
-            password_hash= generate_password_hash("admin", method='sha256'),
+            email_address="admin@test.com",
+            password_hash= generate_password_hash("admin", method='scrypt'),
             role_id=1,
         )
 
@@ -72,7 +80,7 @@ if __name__ == "__main__":
                 staff_number=fake.numerify(text=f'SN-####'),
                 name=fake.name(),
                 email_address=fake.ascii_free_email(),
-                password_hash= generate_password_hash(fake.password(length=12), method='sha256'),
+                password_hash= generate_password_hash(fake.password(length=12), method='scrypt'),
                 role_id=2,
             )
 
@@ -85,10 +93,10 @@ if __name__ == "__main__":
         students =[]
         for i in range(60):
             new_student=Student(
-                student_number=fake.numerify(text=f'ECE211-####/2023'),
+                student_number=f'ECE211-{fake.unique.random_int(min=3000, max=6000)}/2023',
                 name=fake.name(),
                 email_address=fake.ascii_free_email(),
-                password_hash= generate_password_hash(fake.password(length=12), method='sha256'),
+                password_hash= generate_password_hash(fake.password(length=12), method='scrypt'),
                 grade=random.randint(10, 100),
                 attendance=random.randint(0, 100),
                 role_id=3,
@@ -104,9 +112,9 @@ if __name__ == "__main__":
 
         units =[]
         for cs_unit in cs_units:
-            for i in range(random.randint(1, 4)):
+            for i in range(random.randint(1, 2)):
                 unit=Unit(
-                    unit_code=fake.numerify(text=f'CS ####'),
+                    unit_code=f'CS {fake.unique.random_int(min=1000, max=1500)}',
                     name=cs_unit,
                     student_id = random.choice(students).id,
                     instructor_id = random.choice(instructors).id,
