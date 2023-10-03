@@ -27,6 +27,14 @@ ns = Namespace("/")
 api.add_namespace(ns)
 
 
+unit_model = api.model("Unit", {
+    "id" : fields.Integer,
+    "unit_code" : fields.String,
+    "name" : fields.String,
+    # "students" : fields.List(fields.Nested(student_model)),
+    # "instructors" : "",
+    })
+
 student_model = api.model("Student", {
     "id" : fields.Integer,
     "name" : fields.String,
@@ -34,18 +42,7 @@ student_model = api.model("Student", {
     "email_address" : fields.String,
     "grade" : fields.String,
     "attendance" : fields.String,
-    })
-
-
-
-
-
-unit_model = api.model("Unit", {
-    "id" : fields.Integer,
-    "unit_code" : fields.String,
-    "name" : fields.String,
-    # "students" : "",
-    # "instructors" : "",
+    "units" : fields.List(fields.Nested(unit_model))
     })
 
 instructor_model = api.model("Instructor", {
@@ -55,7 +52,6 @@ instructor_model = api.model("Instructor", {
     "email_address" : fields.String,
     "units" : fields.List(fields.Nested(unit_model))
     })
-
 
 
 @ns.route("/students")
@@ -72,7 +68,6 @@ class StudentByID(Resource):
     @ns.marshal_with(student_model)
     def get(self, id):
         return Student.query.get(id)
-    
 
 
 @ns.route("/instructors")
@@ -89,7 +84,6 @@ class InstructorByID(Resource):
     @ns.marshal_with(instructor_model)
     def get(self, id):
         return Instructor.query.get(id)
-
 
 
 @ns.route("/units")
