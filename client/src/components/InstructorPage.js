@@ -1,25 +1,59 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 function Instructor() {
-  const [instructor, setInstructor] = useState({}); 
+  const [instructor, setInstructor] = useState({
+    name: "",
+    number: "",
+    students: {
+      teaching: "",
+    },
+    courses: {
+      teaching: "",
+    },
+    units: [],
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { id } = useParams();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/instructors", {
+    fetch(`http://127.0.0.1:5555/instructors/${id}`, {
       method: 'GET',
       mode: 'no-cors',
       headers: {
         accept: 'application/json',
       }
     })
-    .then(response => response.json())
-    .then((data) => {
-      setInstructor(data); 
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  }, []);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setInstructor({
+          name: data.name,
+          number: data.number,
+          students: {
+            teaching: data.students.teaching,
+          },
+          courses: {
+            teaching: data.courses.teaching,
+          },
+          units: data.units,
+        });
+        setLoading(false);
+        setError(null);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>Error: {error}</h1>;
 
   return (
     <div className="App">
@@ -44,30 +78,14 @@ function Instructor() {
       </div>
 
       <div>
-        <table>
-          <thead>
-            <tr>
-              <td>Course Number</td>
-              <td>Course Name</td>
-              <td>Current Students</td>
-              <td>Average Attendance</td>
-              <td>Average Grades</td>
-            </tr>
-          </thead>
-          <tbody>
-            {instructor.units.map(unit => {
-              return (
-                <tr>
-                  <td>{unit.number}</td>
-                  <td>{unit.name}</td>
-                  <td>{unit.teacher}</td>
-                  <td>{unit.enrolled}</td>
-                  <td>{unit.action}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <h3>Units Taught:</h3>
+        <ul>
+          {instructor.units.map((unit) => (
+            <li key={unit.id}>
+              <Link to={`/units/${unit.id}`}>{unit.name}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
