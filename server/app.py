@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_migrate import Migrate
 from models.dbconfig import db
 from models.unit import Unit
@@ -53,7 +53,6 @@ instructor_model = api.model("Instructor", {
     "students" : fields.List(fields.Nested(student_model)),
     })
 
-
 @ns.route("/students")
 class Students(Resource):
 
@@ -68,6 +67,27 @@ class StudentByID(Resource):
     @ns.marshal_with(student_model)
     def get(self, id):
         return Student.query.get(id)
+    
+
+    @ns.marshal_with(student_model)
+    def patch(self, id):
+        student = Student.query.get(id)
+
+        for attr in request.get_json():
+            setattr(student, attr, request.get_json()[attr])
+
+        db.session.add(student)
+        db.session.commit()
+
+        return student
+
+    def delete(self, id):
+        student = Student.query.get(id)
+
+        db.session.delete(student)
+        db.session.commit()
+
+        return {}
 
 
 @ns.route("/instructors")
@@ -84,6 +104,27 @@ class InstructorByID(Resource):
     @ns.marshal_with(instructor_model)
     def get(self, id):
         return Instructor.query.get(id)
+    
+
+    @ns.marshal_with(instructor_model)
+    def patch(self, id):
+        instructor = Instructor.query.get(id)
+
+        for attr in request.get_json():
+            setattr(instructor, attr, request.get_json()[attr])
+
+        db.session.add(instructor)
+        db.session.commit()
+
+        return instructor
+
+    def delete(self, id):
+        instructor = Instructor.query.get(id)
+
+        db.session.delete(instructor)
+        db.session.commit()
+
+        return {}
 
 
 @ns.route("/units")
@@ -100,6 +141,27 @@ class UnitByID(Resource):
     @ns.marshal_with(unit_model)
     def get(self, id):
         return Unit.query.get(id)
+    
+    @ns.marshal_with(unit_model)
+    def patch(self, id):
+        unit = Unit.query.get(id)
+
+        for attr in request.get_json():
+            setattr(unit, attr, request.get_json()[attr])
+
+        db.session.add(unit)
+        db.session.commit()
+
+        return unit
+
+    
+    def delete(self, id):
+        unit = Unit.query.get(id)
+
+        db.session.delete(unit)
+        db.session.commit()
+
+        return {}
 
 
 if __name__ == '__main__':
