@@ -80,7 +80,7 @@ if __name__ == "__main__":
                 staff_number=fake.numerify(text=f'SN-####'),
                 name=fake.name(),
                 email_address=fake.ascii_free_email(),
-                password_hash= generate_password_hash(fake.password(length=12), method='scrypt'),
+                password_hash= generate_password_hash("1234", method='scrypt'),
                 role_id=2,
             )
 
@@ -96,7 +96,7 @@ if __name__ == "__main__":
                 student_number=f'ECE211-{fake.unique.random_int(min=3000, max=6000)}/2023',
                 name=fake.name(),
                 email_address=fake.ascii_free_email(),
-                password_hash= generate_password_hash(fake.password(length=12), method='scrypt'),
+                password_hash= generate_password_hash("1234", method='scrypt'),
                 grade=random.randint(10, 100),
                 attendance=random.randint(0, 100),
                 role_id=3,
@@ -113,7 +113,7 @@ if __name__ == "__main__":
         units =[]
         for cs_unit in cs_units:
             unit=Unit(
-                unit_code=f'CS {fake.unique.random_int(min=1000, max=1500)}',
+                unit_code=f'CS-{fake.unique.random_int(min=1000, max=1500)}',
                 name=cs_unit,
                 student_id = random.choice(students).id,
                 instructor_id = random.choice(instructors).id,

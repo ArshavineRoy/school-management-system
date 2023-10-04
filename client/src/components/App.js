@@ -1,21 +1,22 @@
-import '../App.css';
+import "../App.css";
+import LoginPage from "../pages/LoginPage";
+import UnitsPage from "../pages/UnitsPage";
+
+import { Switch, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          School Management System
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Happy Coding * _ *
-        </a>
-      </header>
+    <div>
+      <main>
+        <Switch>
+          <Route exact path="/students">
+            <UnitsPage />
+          </Route>
+          <Route exact path="/">
+            <LoginPage />
+          </Route>
+        </Switch>
+      </main>
     </div>
   );
 }
