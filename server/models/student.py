@@ -15,7 +15,10 @@ class Student(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    units = db.relationship('Unit', backref='student')
+    unit_id = db.Column(db.Integer, db.ForeignKey('units.id'))
+    instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
+
+    # units = db.relationship('Unit', backref='student')
 
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     role = db.relationship('Role', backref='students')
