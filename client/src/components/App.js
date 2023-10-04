@@ -1,21 +1,25 @@
 import '../App.css';
+import { Switch, Route } from "react-router-dom";
+import Header from "./Header";
+import Home from "./Home";
+import Student from "./Student";
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          School Management System
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Happy Coding * _ *
-        </a>
-      </header>
+    <div>
+      <Header />
+      <main>
+        <Switch>
+          <Route exact path="/students/:id">
+            <Student />
+          </Route>
+          <Route exact path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </main>
     </div>
   );
 }
