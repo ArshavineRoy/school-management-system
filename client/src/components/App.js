@@ -10,45 +10,21 @@ import AddUnit from './Addunits';
 
 function App() {
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Admin Panel</Link>
-            </li>
-            <li>
-              <Link to="/view-units">View Units</Link>
-            </li>
-            <li>
-              <Link to="/view-students">View Students</Link>
-            </li>
-            <li>
-              <Link to="/view-instructors">View Instructors</Link>
-            </li>
-            <li>
-              <Link to="/add-student">Add Student</Link>
-            </li>
-            <li>
-              <Link to="/add-instructor">Add Instructor</Link>
-            </li>
-            <li>
-              <Link to="/add-unit">Add Unit</Link>
-            </li>
-          </ul>
-        </nav>
-
-        <Switch>
-          <Route path="/view-units" component={ViewUnits} />
-          <Route path="/view-students" component={ViewStudents} />
-          <Route path="/view-instructors" component={ViewInstructors} />
-          <Route path="/add-student" component={AddStudent} />
-          <Route path="/add-instructor" component={AddInstructor} />
-          <Route path="/add-unit" component={AddUnit} />
-          <Route exact path="/" component={AdminPanel} />
-        </Switch>
-      </div>
-    </Router>
+    <div className="App">
+      <header className="App-header">
+        <p>
+          School Management System
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Happy Coding * _ *
+        </a>
+      </header>
+    </div>
   );
 }
 

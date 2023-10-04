@@ -98,29 +98,36 @@ git push
 
 > Steps on how to do this will be demonstrated on call.
 
-## 11. Fetching changes in development branch
+## 11. Pulling changes in development branch on GitHub to your local development branch
 
-If there are changes in development [merged changes will be announced] and you want to fetch them, switch to development branch in VS Code and run the following command.
+If there are changes in development on GitHub [merged changes will be announced] and you want to have them, switch to development branch in VS Code and run the following command.
 
-> **NB: Ensure you have pushed the changes in your branch first before fetching changes in development!**
+> **NB: Ensure you have committed or pushed all changes in your branch first before pulling changes in development!**
 
 ```sh
-git fetch
+git pull
 ```
 
-## 12. Resolve conflicts, if any
+## 12. Resolve conflicts in development branch, if any
 
 > Steps on how to do this will be demonstrated on call.
 
-## 13. Switch back to your branch and continue working, or create a new one if need be.
+## 13. Switch back to your branch or create a new one if need be
 
 > Steps on how to do this will be demonstrated on call.
 
-## 14. Merging fetched changes in development to your branch
+## 14. Merge pulled changes in development to your branch
 
 ```sh
 git merge origin/development
 ```
+
+## 15. Resolve conflicts in your branch, if any, by "accept all current" or "accept all incoming" changes
+
+> Incoming changes are those pulled from GitHub, and current means what you had before starting the merge process. Accept incoming if the new changes are what you want in your code, keep current if you don't want to change your code.
+
+> Conflicts are resolved one by one, carefully.
+
 
 **If you have any issues, schedule a call with me.**
 

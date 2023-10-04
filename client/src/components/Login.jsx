@@ -56,7 +56,7 @@ const Login = () => {
               type='email'
               id='email'
               name='email'
-              className='w-full p-2 rounded-2xl border rounded outline-none focus:outline-none focus:border-green-300'
+              className='w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300'
             />
           </div>
           <div className='mb-4'>
@@ -70,14 +70,14 @@ const Login = () => {
               type='password'
               id='password'
               name='password'
-              className='w-full p-2 rounded-2xl  border rounded outline-none focus:outline-none focus:border-green-300'
+              className='w-full p-2 rounded-2xl  border outline-none focus:outline-none focus:border-green-300'
             />
           </div>
           <button className='w-full bg-green-400 text-white py-2 px-4 rounded hover:bg-green-400 transition duration-300'>
             Login
           </button>
           <div className='flex justify-end py-3'>
-            <p className='text-gray-700 text-sm'>Forgot password?</p>
+            <a href="#" className='text-blue-700 text-sm'>Forgot password?</a>
           </div>
         </div>
       </div>
