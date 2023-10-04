@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 function AddStudent() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-  
+    name: '',
+    studentNumber: '',
+    emailAddress: '',
+    grade: '',
+    attendance: '',
   });
 
   const handleChange = (e) => {
@@ -17,7 +18,7 @@ function AddStudent() {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/students', {
+      const response = await fetch('/students', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,25 +26,20 @@ function AddStudent() {
         body: JSON.stringify(formData),
       });
 
-      
       if (response.status === 201) {
-        
         console.log('Student added successfully!');
-
-        
         setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-        
+          name: '',
+          studentNumber: '',
+          emailAddress: '',
+          grade: '',
+          attendance: '',
         });
       } else {
-        
         const data = await response.json();
         console.error('Failed to add student:', data);
       }
     } catch (error) {
-      
       console.error('Error adding student:', error);
     }
   };
@@ -52,38 +48,56 @@ function AddStudent() {
     <div>
       <h2>Add Student</h2>
       <form onSubmit={handleSubmit}>
-        {/* Form fields and input elements go here */}
         <div>
-          <label htmlFor="firstName">First Name:</label>
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label htmlFor="lastName">Last Name:</label>
+          <label htmlFor="studentNumber">Student Number:</label>
           <input
             type="text"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
+            id="studentNumber"
+            name="studentNumber"
+            value={formData.studentNumber}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="emailAddress">Email Address:</label>
           <input
             type="email"
-            id="email"
-            name="email"
-            value={formData.email}
+            id="emailAddress"
+            name="emailAddress"
+            value={formData.emailAddress}
             onChange={handleChange}
           />
         </div>
-        {/* Add other input fields here */}
+        <div>
+          <label htmlFor="grade">Grade:</label>
+          <input
+            type="text"
+            id="grade"
+            name="grade"
+            value={formData.grade}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="attendance">Attendance:</label>
+          <input
+            type="text"
+            id="attendance"
+            name="attendance"
+            value={formData.attendance}
+            onChange={handleChange}
+          />
+        </div>
         <button type="submit">Add Student</button>
       </form>
     </div>

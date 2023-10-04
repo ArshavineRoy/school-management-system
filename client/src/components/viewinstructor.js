@@ -34,16 +34,16 @@ const ViewInstructors = () => {
           <tr>
             <th>Instructor Number</th>
             <th>Instructor Name</th>
-            <th>Unit Teaching</th>
+            <th>Instructor Email Adress</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {instructors.map((instructor) => (
             <tr key={instructor.id}>
-              <td>{instructor.instructorNumber}</td>
-              <td>{instructor.instructorName}</td>
-              <td>{instructor.unitTeaching}</td>
+              <td>{instructor.staff_number}</td>
+              <td>{instructor.name}</td>
+              <td>{instructor.email_address}</td>
               <td>
                 <button onClick={() => handleDeleteInstructor(instructor.id)}>Delete</button>
               </td>

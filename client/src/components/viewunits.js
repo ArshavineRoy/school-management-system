@@ -35,18 +35,18 @@ const ViewUnits = () => {
           <tr>
             <th>Unit Number</th>
             <th>Unit Name</th>
-            <th>Unit Instructor</th>
-            <th>Students Enrolled</th>
+            
+            
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {units.map((unit) => (
             <tr key={unit.id}>
-              <td>{unit.unitNumber}</td>
-              <td>{unit.unitName}</td>
-              <td>{unit.unitInstructor}</td>
-              <td>{unit.studentsEnrolled}</td>
+              <td>{unit.unit_code}</td>
+              <td>{unit.name}</td>
+              
+              
               <td>
                 <button onClick={() => handleDeleteUnit(unit.id)}>Delete</button>
               </td>

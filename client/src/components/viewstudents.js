@@ -42,9 +42,9 @@ const ViewStudents = () => {
         <tbody>
           {students.map((student) => (
             <tr key={student.id}>
-              <td>{student.studentNumber}</td>
-              <td>{student.studentName}</td>
-              <td>{student.unitGrade}</td>
+              <td>{student.student_number}</td>
+              <td>{student.name}</td>
+              <td>{student.grade}</td>
               <td>{student.attendance}</td>
               <td>
                 <button onClick={() => handleDeleteStudent(student.id)}>Delete</button>
