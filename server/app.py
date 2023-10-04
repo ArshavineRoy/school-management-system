@@ -27,14 +27,6 @@ ns = Namespace("/")
 api.add_namespace(ns)
 
 
-unit_model = api.model("Unit", {
-    "id" : fields.Integer,
-    "unit_code" : fields.String,
-    "name" : fields.String,
-    # "students" : fields.List(fields.Nested(student_model)),
-    # "instructors" : "",
-    })
-
 student_model = api.model("Student", {
     "id" : fields.Integer,
     "name" : fields.String,
@@ -42,7 +34,15 @@ student_model = api.model("Student", {
     "email_address" : fields.String,
     "grade" : fields.String,
     "attendance" : fields.String,
-    "units" : fields.List(fields.Nested(unit_model))
+    })
+
+
+unit_model = api.model("Unit", {
+    "id" : fields.Integer,
+    "unit_code" : fields.String,
+    "name" : fields.String,
+    "students" : fields.List(fields.Nested(student_model)),
+    # "instructors" : "",
     })
 
 instructor_model = api.model("Instructor", {
@@ -50,7 +50,7 @@ instructor_model = api.model("Instructor", {
     "name" : fields.String,
     "staff_number" : fields.String,
     "email_address" : fields.String,
-    "units" : fields.List(fields.Nested(unit_model))
+    "students" : fields.List(fields.Nested(student_model)),
     })
 
 
