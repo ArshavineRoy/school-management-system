@@ -27,3 +27,24 @@ function Student() {
   if (status === "pending") return <h1>Loading...</h1>;
   if (status === "rejected") return <h1>Error: {error.error}</h1>;
 
+  return (
+    <section>
+      <h3>Name: {student.name}</h3>
+      <h3>Reg Number: {student.student_number}</h3>
+      <h3>Grade: {student.grade}%</h3>
+      <h3>Attendance: {student.attendance}%</h3>
+
+      <h3>Units:</h3>
+      <ul>
+        {student.units.map((unit) => (
+          <li key={student.id}>
+            <Link to={`/units/${unit.id}`}>{unit.name}</Link>
+          </li>
+        ))}
+      </ul>
+
+    </section>
+  );
+}
+
+export default Student;
