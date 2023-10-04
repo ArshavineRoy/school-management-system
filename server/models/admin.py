@@ -1,12 +1,11 @@
-from .dbconfig import db
+from models.dbconfig import db
 
 
-class Instructor(db.Model):
+class Admin(db.Model):
 
-    __tablename__ = "instructors"
+    __tablename__ = "admins"
 
-    id = db.Column(db.Integer(), primary_key=True)
-    staff_number = db.Column(db.Integer(), nullable=False, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
@@ -14,10 +13,9 @@ class Instructor(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    units = db.relationship('Unit', backref='instructor')
-    
-    role = db.relationship('Role', backref='instructors')
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    role = db.relationship('Role', backref='admins')
 
     def __repr__(self):
-        return f'Instructor(id={self.id}, name={self.name}, email_address={self.email_address})'
+        return f'Admin(id={self.id}, name={self.name}, email_address={self.email_address})'
+
