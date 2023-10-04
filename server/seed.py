@@ -88,26 +88,6 @@ if __name__ == "__main__":
 
         db.session.add_all(instructors)
 
-        print("🦸‍♀️ Seeding students...")
-
-        students =[]
-        for i in range(60):
-            new_student=Student(
-                student_number=f'ECE211-{fake.unique.random_int(min=3000, max=6000)}/2023',
-                name=fake.name(),
-                email_address=fake.ascii_free_email(),
-                password_hash= generate_password_hash("1234", method='scrypt'),
-                grade=random.randint(10, 100),
-                attendance=random.randint(0, 100),
-                role_id=3,
-            )
-
-            students.append(new_student)
-
-        db.session.add_all(students)
-
-        db.session.commit()
-
         print("🦸‍♀️ Seeding units...")
 
         units =[]
@@ -115,13 +95,60 @@ if __name__ == "__main__":
             unit=Unit(
                 unit_code=f'CS-{fake.unique.random_int(min=1000, max=1500)}',
                 name=cs_unit,
-                student_id = random.choice(students).id,
-                instructor_id = random.choice(instructors).id,
             )
 
             units.append(unit)
 
         db.session.add_all(units)
+        db.session.commit()
+
+        print("🦸‍♀️ Seeding students...")
+
+        # students =[]
+        # for unit in units:            
+        #     for i in range(random.randint(1, 2)):
+        #         new_student=Student(
+        #             student_number=f'ECE211-{fake.unique.random_int(min=3000, max=6000)}/2023',
+        #             name=fake.name(),
+        #             email_address=fake.ascii_free_email(),
+        #             password_hash= generate_password_hash("1234", method='scrypt'),
+        #             grade=random.randint(10, 100),
+        #             attendance=random.randint(0, 100),
+        #             role_id=3,
+        #             unit_id = unit.id,
+        #             instructor_id = random.choice(instructors).id,
+        #         )
+
+        #         students.append(new_student)
+
+        # db.session.add_all(students)
+        # db.session.commit()
+
+        unique_student_numbers = set()
+        students = []
+        for unit in units:
+            for i in range(random.randint(1, 4)):
+                while True:
+                    student_number = f'ECE211-{fake.unique.random_int(min=3000, max=6000)}/2023'
+                    if student_number not in unique_student_numbers:
+                        unique_student_numbers.add(student_number)
+                        break
+
+                new_student = Student(
+                    student_number=student_number,
+                    name=fake.unique.name(),
+                    email_address=fake.unique.ascii_free_email(),
+                    password_hash=generate_password_hash("1234", method='scrypt'),
+                    grade=random.randint(10, 100),
+                    attendance=random.randint(0, 100),
+                    role_id=3,
+                    unit_id=unit.id,
+                    instructor_id=random.choice(instructors).id,
+                )
+
+                students.append(new_student)
+
+        db.session.add_all(students)
         db.session.commit()
 
         print("Db seeded successfully.")
