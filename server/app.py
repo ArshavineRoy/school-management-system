@@ -8,6 +8,11 @@ from models.instructor import Instructor
 from models.student import Student
 from flask_marshmallow import Marshmallow
 from flask_restx import Api, Resource, Namespace, fields
+from werkzeug.security import generate_password_hash
+
+from faker import Faker
+
+fake = Faker()
 
 app = Flask(__name__)
 
@@ -36,13 +41,28 @@ student_model = api.model("Student", {
     "attendance" : fields.String,
     })
 
+student_only_model = api.model("Student Input", {
+    "name" : fields.String,
+    "email_address" : fields.String,
+    "password" : fields.String,
+    })
+
+
+unit_only_model = api.model("Unit Input", {
+    "name" : fields.String,
+    })
 
 unit_model = api.model("Unit", {
     "id" : fields.Integer,
     "unit_code" : fields.String,
     "name" : fields.String,
     "students" : fields.List(fields.Nested(student_model)),
-    # "instructors" : "",
+    })
+
+instructor_only_model = api.model("Instructor Input", {
+    "name" : fields.String,
+    "email_address" : fields.String,
+    "password" : fields.String,
     })
 
 instructor_model = api.model("Instructor", {
@@ -53,12 +73,35 @@ instructor_model = api.model("Instructor", {
     "students" : fields.List(fields.Nested(student_model)),
     })
 
+
 @ns.route("/students")
 class Students(Resource):
 
     @ns.marshal_list_with(student_model)
     def get(self):
         return Student.query.all()
+    
+
+    @ns.marshal_with(student_model)
+    @ns.expect(student_only_model)
+    def post(self):
+
+        data = request.get_json()
+
+        new_student = Student(
+            student_number=f'ECE211-{fake.unique.random_int(min=3000, max=6000)}/2023',
+            name=data['name'],
+            email_address=data['email_address'],
+            password_hash=generate_password_hash(data['password']),
+            grade=0,
+            attendance=0,
+            role_id=3,
+        )
+
+        db.session.add(new_student)
+        db.session.commit()
+
+        return new_student
 
 
 @ns.route("/students/<int:id>")
@@ -96,6 +139,25 @@ class Instructors(Resource):
     @ns.marshal_list_with(instructor_model)
     def get(self):
         return Instructor.query.all()
+    
+    @ns.marshal_with(instructor_model)
+    @ns.expect(instructor_only_model)
+    def post(self):
+
+        data = request.get_json()
+
+        new_instructor = Instructor(
+            staff_number=f'SN-{fake.unique.random_int(min=1000, max=1500)}',
+            name=data['name'],
+            email_address=data['email_address'],
+            password_hash=generate_password_hash(data['password']),
+            role_id=2,
+        )
+
+        db.session.add(new_instructor)
+        db.session.commit()
+
+        return new_instructor
 
 
 @ns.route("/instructors/<int:id>")
@@ -133,6 +195,22 @@ class Units(Resource):
     @ns.marshal_list_with(unit_model)
     def get(self):
         return Unit.query.all()
+
+    @ns.marshal_with(unit_model)
+    @ns.expect(unit_only_model)
+    def post(self):
+
+        data = request.get_json()
+
+        new_unit = Unit(
+            unit_code=f'CS-{fake.unique.random_int(min=1000, max=1500)}',
+            name=data['name'],
+        )
+
+        db.session.add(new_unit)
+        db.session.commit()
+
+        return new_unit
 
 
 @ns.route("/units/<int:id>")
