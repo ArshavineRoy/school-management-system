@@ -18,7 +18,37 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password, role }),
       });
-      
+
+      if (response.ok) {
+        const data = await response.json();
+        // Store the token and role-specific ID in localStorage
+        localStorage.setItem("token", data.token);
+
+         // Determine the key to use based on the role
+        const idKey = role === "student" ? "studentId" : role==="instructor" ? "instructorId" :"adminId";
+        
+        // Store the ID using the appropriate key
+        localStorage.setItem(idKey, data.id);
+
+        // Redirect to the role-specific dashboard
+        history.push(role === "student" ? `/students/${data.id}` : role ===  "instructor" ? `/instructors/${data.id}` : `/admins/${data.id}`);
+      } else {
+        // Handle login failure by displaying appropriate error messages
+        const errorMessage = await response.text();
+
+        if (errorMessage.includes("email")) {
+          setError("Invalid email address. Please check your email.");
+        } else if (errorMessage.includes("password")) {
+          setError("Invalid password. Please check your password.");
+        } else {
+          setError("Login failed. Please try again.");
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div
       className='bg-cover bg-center h-screen flex items-center justify-center'
