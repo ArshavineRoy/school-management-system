@@ -75,6 +75,11 @@ instructor_model = api.model("Instructor", {
     "students" : fields.List(fields.Nested(student_model)),
     })
 
+login_model = api.model("Login", {
+    "email": fields.String(required=True),
+    "password": fields.String(required=True),
+    "role": fields.String(required=True),
+})
 
 @ns.route("/students")
 class Students(Resource):
