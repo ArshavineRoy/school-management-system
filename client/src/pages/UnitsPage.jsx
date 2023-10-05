@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
-import Stats from "../components/Stats";
+import Stats from "../components/StudentStats";
 
 const UnitsPage = () => {
   const title = "Hello, {Anne}";

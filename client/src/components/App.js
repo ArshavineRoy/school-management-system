@@ -5,7 +5,7 @@ import Instructor from "./InstructorPage";
 import { Switch, Route } from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage"
 import AdminPage from "../pages/AdminPage";
-import Student from "./Student";
+import Student from "./StudentPage";
 
 
 function App() {
