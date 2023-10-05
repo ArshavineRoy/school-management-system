@@ -61,6 +61,12 @@ unit_model = api.model("Unit", {
     "students" : fields.List(fields.Nested(student_model)),
     })
 
+unit_only_model = api.model("Unit", {
+    "id" : fields.Integer,
+    "unit_code" : fields.String,
+    "name" : fields.String,
+    })
+
 instructor_only_model = api.model("Instructor Input", {
     "name" : fields.String,
     "email_address" : fields.String,
@@ -75,11 +81,13 @@ instructor_model = api.model("Instructor", {
     "students" : fields.List(fields.Nested(student_model)),
     })
 
+
 login_model = api.model("Login", {
     "email": fields.String(required=True),
     "password": fields.String(required=True),
     "role": fields.String(required=True),
 })
+
 
 @ns.route("/students")
 class Students(Resource):
@@ -248,6 +256,25 @@ class UnitByID(Resource):
 
         return {}
 
+      
+@ns.route("/instructor_units/<int:instructor_id>")
+class InstructorUnits(Resource):
+
+    @ns.marshal_list_with(unit_only_model)
+    def get(self, instructor_id):
+        units_taught = Unit.query.join(Student).filter(Student.instructor_id == instructor_id).all()
+        return units_taught
+
+@ns.route("/student_units/<int:student_id>")
+class StudentUnits(Resource):
+
+    @ns.marshal_list_with(unit_only_model)
+    def get(self, student_id):
+        student = Student.query.get(student_id)
+        units_taken = Unit.query.filter_by(id=student.unit_id).all()
+        return units_taken
+
+      
 @ns.route("/login")
 class Login(Resource):
     @ns.expect(login_model)
@@ -285,6 +312,7 @@ class Login(Resource):
         )
 
         return {"message": "Login successful", "token": token, "id": user.id}
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

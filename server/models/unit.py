@@ -10,9 +10,6 @@ class Unit(db.Model):
     
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
-    
-    # student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
-    # instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
 
     students = db.relationship('Student', backref='unit')
 
