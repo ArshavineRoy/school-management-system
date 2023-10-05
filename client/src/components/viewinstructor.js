@@ -14,12 +14,13 @@ const ViewInstructors = () => {
       });
   }, []);
 
-  const handleDeleteInstructor = (instructorId) => {
-    fetch(`/api/instructors/${instructorId}`, {
+  const handleDeleteInstructor = (id) => {
+    fetch(`/instructors/${id}`, {
       method: 'DELETE',
     })
       .then(() => {
-        setInstructors(instructors.filter((instructor) => instructor.id !== instructorId));
+        // Remove the deleted instructor from the state
+        setInstructors(instructors.filter((instructor) => instructor.id !== id));
       })
       .catch((error) => {
         console.error(error);
@@ -34,7 +35,7 @@ const ViewInstructors = () => {
           <tr>
             <th>Instructor Number</th>
             <th>Instructor Name</th>
-            <th>Instructor Email Adress</th>
+            <th>Instructor Email Address</th>
             <th>Action</th>
           </tr>
         </thead>
