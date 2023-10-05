@@ -260,7 +260,7 @@ class UnitByID(Resource):
 @ns.route("/instructor_units/<int:instructor_id>")
 class InstructorUnits(Resource):
 
-    @ns.marshal_list_with(unit_only_model)
+    @ns.marshal_list_with(unit_model)
     def get(self, instructor_id):
         units_taught = Unit.query.join(Student).filter(Student.instructor_id == instructor_id).all()
         return units_taught

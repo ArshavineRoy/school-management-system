@@ -35,49 +35,6 @@ const columns = [
   },
 ];
 
-const instructorHeaders = [
-  {
-    field: "id",
-    headerName: "Instructor Number",
-    width: 250,
-  },
-  {
-    field: "instructor_name",
-    headerName: "Instructor Name",
-    width: 250,
-  },
-  {
-    field: "courses",
-    headerName: "Course Teaching",
-    width: 250,
-  },
-  {
-    field: "action",
-    headerName: "Action",
-    width: 100,
-    renderCell: () => {
-      return (
-        <button className='bg-red-500 rounded px-3 py-2 text-white cursor-pointer'>
-          Delete
-        </button>
-      );
-    },
-  },
-];
-
-const instructorData = [
-  {
-    id: "234r3i93",
-    instructor_name: "Brian Baraza",
-    courses: "Computer Science",
-  },
-  {
-    id: "231299833",
-    instructor_name: "Wamae Ndiritu",
-    courses: "Internet of Things",
-  },
-];
-
 const rows = [
   {
     id: "08210304058",
