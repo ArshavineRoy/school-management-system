@@ -6,7 +6,7 @@ import TopHeader from "../components/TopHeader";
 import InstructorStats from "../components/InstructorStats";
 import ListTable from "../components/ListTable";
 
-function Instructor() {
+function InstructorPage() {
   const [{ data: instructor, error, status }, setInstructor] = useState({
     data: null,
     error: null,
@@ -93,4 +93,4 @@ function Instructor() {
   );
 }
 
-export default Instructor;
+export default InstructorPage;
