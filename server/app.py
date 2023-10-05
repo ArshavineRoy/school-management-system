@@ -8,7 +8,9 @@ from models.instructor import Instructor
 from models.student import Student
 from flask_marshmallow import Marshmallow
 from flask_restx import Api, Resource, Namespace, fields
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
+import datetime
 
 from faker import Faker
 

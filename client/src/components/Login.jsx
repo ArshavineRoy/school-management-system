@@ -63,6 +63,7 @@ const Login = () => {
               className='w-18 h-24 mb-4'
             />
           </div>
+          {error && <p className="text-red-500">{error}</p>}
           <h4 className='text-2xl'>Welcome to</h4>
           <h1 className='uppercase font-bold text-4xl'>Bamac</h1>
           <h2 className='font-semibold text-2xl text-light-green'>
@@ -88,9 +89,11 @@ const Login = () => {
               id='role'
               name='role'
               className='w-full p-2 border rounded-2xl outline-none focus:outline-none focus:border-green-300 text-green-400'
-            >
+              nChange={(e) => setRole(e.target.value)}
+              >
               <option value='instructor'>Instructor</option>
               <option value='student'>Student</option>
+              <option value='admin'>Admin</option>
             </select>
           </div>
           <div className='mb-4'>
@@ -105,6 +108,7 @@ const Login = () => {
               id='email'
               name='email'
               className='w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300'
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className='mb-4'>
@@ -119,9 +123,11 @@ const Login = () => {
               id='password'
               name='password'
               className='w-full p-2 rounded-2xl  border outline-none focus:outline-none focus:border-green-300'
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className='w-full bg-green-400 text-white mt-4 mb-2 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300'>
+          <button  
+          onClick={handleLogin}className='w-full bg-green-400 text-white mt-4 mb-2 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300'>
             Login
           </button>
           <div className='flex justify-end py-3'>
