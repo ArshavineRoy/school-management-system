@@ -89,7 +89,7 @@ const Login = () => {
               id='role'
               name='role'
               className='w-full p-2 border rounded-2xl outline-none focus:outline-none focus:border-green-300 text-green-400'
-              nChange={(e) => setRole(e.target.value)}
+              onChange={(e) => setRole(e.target.value)}
               >
               <option value='instructor'>Instructor</option>
               <option value='student'>Student</option>
