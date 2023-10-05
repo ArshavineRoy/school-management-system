@@ -45,7 +45,6 @@ console.log (student)
 
     </section>
     
-    
   );
 }
 export default Student;
