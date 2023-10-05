@@ -8,7 +8,17 @@ const Login = () => {
   const [role, setRole] = useState("instructor"); // Default role
   const [error, setError] = useState("");
   const history = useHistory();
-  
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, role }),
+      });
+      
   return (
     <div
       className='bg-cover bg-center h-screen flex items-center justify-center'
