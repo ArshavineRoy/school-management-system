@@ -15,11 +15,11 @@ Design and develop a comprehensive School Management System that addresses the a
 - Landing page
 - Login Page
 - Student registration form
-- Course page
-  - Course registration form
-  - Course listings
+- Unit page
+  - Unit registration form
+  - Unit listings
 - Teachers page
-  - List of courses they teach
+  - List of units they teach
 - Registration page
   - Register students
   - Remove students
@@ -43,7 +43,7 @@ Design and develop a comprehensive School Management System that addresses the a
 
 ## SDFT-05 PHASE 4 PROJECT REQUIREMENTS
 
-Welcome to project week. It is time to put together a project that accumulates all your skills from the beginning of the course to this point. This week, you will be required to work in teams and develop full-stack web applications.
+Welcome to project week. It is time to put together a project that accumulates all your skills from the beginning of the unit to this point. This week, you will be required to work in teams and develop full-stack web applications.
 
 ## Project Overview
 
