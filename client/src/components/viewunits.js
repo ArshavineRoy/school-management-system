@@ -15,8 +15,7 @@ const ViewUnits = () => {
   }, []);
 
   const handleDeleteUnit = (unitId) => {
-    fetch(`rm -rf /home/collins/moringa/flask/school-management-system/client/node_modules/autoprefixer
-    /units/${unitId}`, {
+    fetch(`/units/${unitId}`, {
       method: 'DELETE',
     })
       .then(() => {
@@ -35,8 +34,6 @@ const ViewUnits = () => {
           <tr>
             <th>Unit Number</th>
             <th>Unit Name</th>
-            
-            
             <th>Action</th>
           </tr>
         </thead>
@@ -45,8 +42,6 @@ const ViewUnits = () => {
             <tr key={unit.id}>
               <td>{unit.unit_code}</td>
               <td>{unit.name}</td>
-              
-              
               <td>
                 <button onClick={() => handleDeleteUnit(unit.id)}>Delete</button>
               </td>

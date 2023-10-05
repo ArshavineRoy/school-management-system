@@ -1,5 +1,5 @@
 import "../App.css";
-import LoginPage from "../pages/LoginPage";
+import RouterApp from "./Adminrouter"
 import UnitsPage from "../pages/UnitsPage";
 import Instructor from "./InstructorPage";
 import { Switch, Route } from "react-router-dom";
