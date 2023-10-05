@@ -4,6 +4,7 @@ import UnitsPage from "../pages/UnitsPage";
 import Instructor from "./InstructorPage";
 import { Switch, Route } from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage"
+import AdminPage from "../pages/AdminPage";
 
 
 function App() {
@@ -11,6 +12,9 @@ function App() {
     <div>
       <main>
         <Switch>
+          <Route exact path="/admin">
+            <AdminPage />
+          </Route>
           <Route exact path="/students">
             <UnitsPage />
           </Route>
