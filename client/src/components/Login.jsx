@@ -1,8 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useState}from "react";
+import { Link, useHistory } from "react-router-dom";
 
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("instructor"); // Default role
+  const [error, setError] = useState("");
+  const history = useHistory();
+  
   return (
     <div
       className='bg-cover bg-center h-screen flex items-center justify-center'
