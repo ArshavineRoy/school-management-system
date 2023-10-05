@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 
 const Login = () => {
   return (
@@ -50,7 +52,7 @@ const Login = () => {
               htmlFor='email'
               className='block text-gray-600 text-sm font-medium mb-2'
             >
-              Your Email Address
+              Email Address
             </label>
             <input
               type='email'
@@ -73,11 +75,11 @@ const Login = () => {
               className='w-full p-2 rounded-2xl  border outline-none focus:outline-none focus:border-green-300'
             />
           </div>
-          <button className='w-full bg-green-400 text-white py-2 px-4 rounded hover:bg-green-400 transition duration-300'>
+          <button className='w-full bg-green-400 text-white mt-4 mb-2 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300'>
             Login
           </button>
           <div className='flex justify-end py-3'>
-            <a href="#" className='text-blue-700 text-sm'>Forgot password?</a>
+            <Link to={"/students/register"} className='text-blue-600 text-base'>New Student? Register here.</Link>
           </div>
         </div>
       </div>
