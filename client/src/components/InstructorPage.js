@@ -32,8 +32,6 @@ function Instructor() {
       <h3>Staff Number: {instructor.staff_number}</h3>
       <h3>Email : {instructor.email_address}%</h3>
     
-      
-
       <h3>students:</h3>
       <ul>
         {instructor.students.map((student) => (
@@ -44,8 +42,6 @@ function Instructor() {
             <Link to={`/students/${student.id}`}>{student.grade}</Link>
             <Link to={`/students/${student.id}`}>{student.attendance}</Link> */}
             </li>
-            
-            
         ))}
       </ul>
 
