@@ -1,8 +1,54 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useState}from "react";
+import { Link, useHistory } from "react-router-dom";
 
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("instructor"); // Default role
+  const [error, setError] = useState("");
+  const history = useHistory();
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, role }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Store the token and role-specific ID in localStorage
+        localStorage.setItem("token", data.token);
+
+         // Determine the key to use based on the role
+        const idKey = role === "student" ? "studentId" : role==="instructor" ? "instructorId" :"adminId";
+        
+        // Store the ID using the appropriate key
+        localStorage.setItem(idKey, data.id);
+
+        // Redirect to the role-specific dashboard
+        history.push(role === "student" ? `/students/${data.id}` : role ===  "instructor" ? `/instructors/${data.id}` : `/admins/${data.id}`);
+      } else {
+        // Handle login failure by displaying appropriate error messages
+        const errorMessage = await response.text();
+
+        if (errorMessage.includes("email")) {
+          setError("Invalid email address. Please check your email.");
+        } else if (errorMessage.includes("password")) {
+          setError("Invalid password. Please check your password.");
+        } else {
+          setError("Login failed. Please try again.");
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div
       className='bg-cover bg-center h-screen flex items-center justify-center'
@@ -17,6 +63,7 @@ const Login = () => {
               className='w-18 h-24 mb-4'
             />
           </div>
+          {error && <p className="text-red-500">{error}</p>}
           <h4 className='text-2xl'>Welcome to</h4>
           <h1 className='uppercase font-bold text-4xl'>Bamac</h1>
           <h2 className='font-semibold text-2xl text-light-green'>
@@ -42,9 +89,11 @@ const Login = () => {
               id='role'
               name='role'
               className='w-full p-2 border rounded-2xl outline-none focus:outline-none focus:border-green-300 text-green-400'
-            >
+              onChange={(e) => setRole(e.target.value)}
+              >
               <option value='instructor'>Instructor</option>
               <option value='student'>Student</option>
+              <option value='admin'>Admin</option>
             </select>
           </div>
           <div className='mb-4'>
@@ -59,6 +108,7 @@ const Login = () => {
               id='email'
               name='email'
               className='w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300'
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className='mb-4'>
@@ -73,9 +123,11 @@ const Login = () => {
               id='password'
               name='password'
               className='w-full p-2 rounded-2xl  border outline-none focus:outline-none focus:border-green-300'
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className='w-full bg-green-400 text-white mt-4 mb-2 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300'>
+          <button  
+          onClick={handleLogin}className='w-full bg-green-400 text-white mt-4 mb-2 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300'>
             Login
           </button>
           <div className='flex justify-end py-3'>

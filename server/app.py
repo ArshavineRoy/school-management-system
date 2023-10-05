@@ -8,7 +8,9 @@ from models.instructor import Instructor
 from models.student import Student
 from flask_marshmallow import Marshmallow
 from flask_restx import Api, Resource, Namespace, fields
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
+import datetime
 
 from faker import Faker
 
@@ -78,6 +80,14 @@ instructor_model = api.model("Instructor", {
     "email_address" : fields.String,
     "students" : fields.List(fields.Nested(student_model)),
     })
+
+
+login_model = api.model("Login", {
+    "email": fields.String(required=True),
+    "password": fields.String(required=True),
+    "role": fields.String(required=True),
+})
+
 
 @ns.route("/students")
 class Students(Resource):
@@ -246,6 +256,7 @@ class UnitByID(Resource):
 
         return {}
 
+      
 @ns.route("/instructor_units/<int:instructor_id>")
 class InstructorUnits(Resource):
 
@@ -262,6 +273,46 @@ class StudentUnits(Resource):
         student = Student.query.get(student_id)
         units_taken = Unit.query.filter_by(id=student.unit_id).all()
         return units_taken
+
+      
+@ns.route("/login")
+class Login(Resource):
+    @ns.expect(login_model)
+    def post(self):
+        data = request.get_json()
+        email = data['email']
+        password = data['password']
+        role = data['role']
+
+        # Check the role (student or instructor) and fetch the user
+        if role == 'student':
+            user = Student.query.filter_by(email_address=email).first()
+        elif role == 'instructor':
+            user = Instructor.query.filter_by(email_address=email).first()
+        elif role == 'admin':
+            user = Admin.query.filter_by(email_address=email).first()    
+        else:
+            return {"message": "Invalid role"}, 400
+
+        if not user:
+            return {"message": "User not found"}, 404
+
+        # Check the password
+        if not check_password_hash(user.password_hash, password):
+            return {"message": "Invalid password"}, 401
+
+        # Generate a JWT token
+        token = jwt.encode(
+            {
+                'user_id': user.id,
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)  # Token expiration time
+            },
+            app.config['SECRET_KEY'],
+            algorithm='HS256'
+        )
+
+        return {"message": "Login successful", "token": token, "id": user.id}
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
