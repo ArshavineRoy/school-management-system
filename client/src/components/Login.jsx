@@ -12,7 +12,7 @@ const Login = () => {
         <div className='flex-1 pr-8 bg-color-main p-8 text-white'>
           <div className='w-full flex justify-end'>
             <img
-              src='/assets/images/image-1.jpeg'
+              src='/assets/images/logo-1.png'
               alt='Logo'
               className='w-18 h-24 mb-4'
             />
