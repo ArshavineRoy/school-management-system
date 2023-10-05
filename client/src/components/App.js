@@ -2,7 +2,7 @@ import "../App.css";
 import LoginPage from "../pages/LoginPage";
 import UnitsPage from "../pages/UnitsPage";
 import RegisterPage from "../pages/RegisterPage"
-
+import Student from "./Student"
 import { Switch, Route } from "react-router-dom";
 
 function App() {
@@ -12,6 +12,9 @@ function App() {
         <Switch>
           <Route exact path="/students">
             <UnitsPage />
+          </Route>
+          <Route exact path="/students/:id">
+            <Student/>
           </Route>
           <Route exact path="/students/register">
             <RegisterPage />
