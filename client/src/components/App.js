@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../App.css";
-import LoginPage from "../pages/LoginPage";
+import RouterApp from "./Adminrouter"
 import UnitsPage from "../pages/UnitsPage";
 import InstructorPage from "./InstructorPage";
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -56,7 +56,7 @@ function App() {
             {userRole === 2 ? <InstructorPage /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/">
-            <LoginPage />
+            <RouterApp /> {/* Render RouterApp component when the path is the root / */}
           </Route>
           <Route>
             <Redirect to="/" />
