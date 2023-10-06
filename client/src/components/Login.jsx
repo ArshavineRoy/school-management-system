@@ -1,51 +1,61 @@
-import React, {useState}from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("instructor"); // Default role
-  const [error, setError] = useState("");
+
+  const [error ] = useState("");
   const history = useHistory();
 
-  const handleLogin = async () => {
+  const validationSchema = Yup.object().shape({
+    role: Yup.string().required('Role is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+  });
+
+  const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
     try {
       const response = await fetch("/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, role }),
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+          role: values.role,
+        }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
-        // Store the token and role-specific ID in localStorage
+       
+         // Store the token and role-specific ID in localStorage
         localStorage.setItem("token", data.token);
 
+        localStorage.setItem("userRole", data.role);
+
          // Determine the key to use based on the role
-        const idKey = role === "student" ? "studentId" : role==="instructor" ? "instructorId" :"adminId";
+        // const idKey = role === "student" ? "studentId" : role==="instructor" ? "instructorId" : "adminId";
+        const idKey = data.role === "student" ? "studentId" : data.role === "instructor" ? "instructorId" : "adminId";
         
         // Store the ID using the appropriate key
         localStorage.setItem(idKey, data.id);
 
         // Redirect to the role-specific dashboard
-        history.push(role === "student" ? `/students/${data.id}` : role ===  "instructor" ? `/instructors/${data.id}` : `/admins/${data.id}`);
+        // history.push(role === "student" ? `/students/${data.id}` : role ===  "instructor" ? `/instructors/${data.id}` : `/admins/${data.id}`);
+        history.push(data.role === "student" ? `/students/${data.id}` : data.role === "instructor" ? `/instructors/${data.id}` : `/admins/${data.id}`);
       } else {
-        // Handle login failure by displaying appropriate error messages
         const errorMessage = await response.text();
-
-        if (errorMessage.includes("email")) {
-          setError("Invalid email address. Please check your email.");
-        } else if (errorMessage.includes("password")) {
-          setError("Invalid password. Please check your password.");
-        } else {
-          setError("Login failed. Please try again.");
-        }
+        setFieldError('email', 'Invalid email address or password');
+        setSubmitting(false);
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -76,64 +86,64 @@ const Login = () => {
             pharetra sit amet aliquam.
           </p>
         </div>
-        <div className='flex-1 p-8 text-green-400'>
-          <h2 className='text-2xl font-semibold mb-4'>Login</h2>
-          <div className='mb-4'>
-            <label
-              htmlFor='role'
-              className='block text-gray-600 text-sm font-medium mb-2'
-            >
-              Select Role
-            </label>
-            <select
-              id='role'
-              name='role'
-              className='w-full p-2 border rounded-2xl outline-none focus:outline-none focus:border-green-300 text-green-400'
-              onChange={(e) => setRole(e.target.value)}
-              >
-              <option value='instructor'>Instructor</option>
-              <option value='student'>Student</option>
-              <option value='admin'>Admin</option>
-            </select>
-          </div>
-          <div className='mb-4'>
-            <label
-              htmlFor='email'
-              className='block text-gray-600 text-sm font-medium mb-2'
-            >
-              Email Address
-            </label>
-            <input
-              type='email'
-              id='email'
-              name='email'
-              className='w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300'
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className='mb-4'>
-            <label
-              htmlFor='password'
-              className='block text-gray-600 text-sm font-medium mb-2'
-            >
-              Password
-            </label>
-            <input
-              type='password'
-              id='password'
-              name='password'
-              className='w-full p-2 rounded-2xl  border outline-none focus:outline-none focus:border-green-300'
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button  
-          onClick={handleLogin}className='w-full bg-green-400 text-white mt-4 mb-2 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300'>
-            Login
-          </button>
-          <div className='flex justify-end py-3'>
-            <Link to={"/students/register"} className='text-blue-600 text-base'>New Student? Register here.</Link>
-          </div>
-        </div>
+        <Formik
+            initialValues={{
+              role: 'student',
+              email: '',
+              password: '',
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form className="flex-1 p-8 text-green-400">
+                <h2 className="text-2xl font-semibold mb-4">Login</h2>
+                <div className="mb-4">
+                  <label htmlFor="role" className="block text-gray-600 text-sm font-medium mb-2">Select Role</label>
+                  <Field
+                    as="select"
+                    name="role"
+                    className="w-full p-2 border rounded-2xl outline-none focus:outline-none focus:border-green-300 text-green-400"
+                  >
+                    <option value="instructor">Instructor</option>
+                    <option value="student">Student</option>
+                    <option value="admin">Admin</option>
+                  </Field>
+                  <ErrorMessage name="role" component="div" className="text-red-500 text-xs" />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="email" className="block text-gray-600 text-sm font-medium mb-2">Email Address</label>
+                  <Field
+                    type="email"
+                    id="email"
+                    name="email"
+                    className="w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300"
+                  />
+                  <ErrorMessage name="email" component="div" className="text-red-500 text-xs" />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="password" className="block text-gray-600 text-sm font-medium mb-2">Password</label>
+                  <Field
+                    type="password"
+                    id="password"
+                    name="password"
+                    className="w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300"
+                  />
+                  <ErrorMessage name="password" component="div" className="text-red-500 text-xs" />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-green-400 text-white mt-4 mb-2 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300"
+                  disabled={isSubmitting}
+                >
+                  Login
+                </button>
+                <div className="flex justify-end py-3">
+                  <Link to={"/students/register"} className="text-blue-600 text-base">New Student? Register here.</Link>
+                </div>
+              </Form>
+            )}
+        </Formik>
       </div>
     </div>
   );
