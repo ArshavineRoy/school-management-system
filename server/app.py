@@ -89,6 +89,12 @@ login_model = api.model("Login", {
 })
 
 
+login_model = api.model("Login", {
+    "email": fields.String(required=True),
+    "password": fields.String(required=True),
+    "role": fields.String(required=True),
+})
+
 @ns.route("/students")
 class Students(Resource):
 
@@ -282,14 +288,15 @@ class Login(Resource):
         data = request.get_json()
         email = data['email']
         password = data['password']
-        role = data['role']
+        user_role = data['role']
+        
 
         # Check the role (student or instructor) and fetch the user
-        if role == 'student':
+        if user_role == 'student':
             user = Student.query.filter_by(email_address=email).first()
-        elif role == 'instructor':
+        elif user_role == 'instructor':
             user = Instructor.query.filter_by(email_address=email).first()
-        elif role == 'admin':
+        elif user_role == 'admin':
             user = Admin.query.filter_by(email_address=email).first()    
         else:
             return {"message": "Invalid role"}, 400
@@ -300,18 +307,22 @@ class Login(Resource):
         # Check the password
         if not check_password_hash(user.password_hash, password):
             return {"message": "Invalid password"}, 401
+        
+        role_id = Role.query.get(user.role_id).id
+
 
         # Generate a JWT token
         token = jwt.encode(
             {
                 'user_id': user.id,
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)  # Token expiration time
+                'role' : role_id,
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=59) 
             },
             app.config['SECRET_KEY'],
             algorithm='HS256'
         )
 
-        return {"message": "Login successful", "token": token, "id": user.id}
+        return {"message": "Login successful", "token": token, "id": user.id, "role": role_id}
 
 
 if __name__ == '__main__':

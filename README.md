@@ -1,36 +1,26 @@
 # School Management System
+A modern and user-centric School Management System React-Flask fullstack dashboard.
 
-## Problem Statement
+![Alt text](Bamac.png)
 
-In today's rapidly evolving educational landscape, the need for an efficient, comprehensive, and technologically advanced School Management System has become paramount. Educational institutions, from schools to higher education, face a myriad of challenges in managing administrative tasks, fostering communication, and ensuring the highest quality of education. The existing manual and fragmented processes are no longer sufficient to address these challenges.
+## Features
 
-The goal of this project is to develop a modern and user-centric School Management System that caters to the needs of administrators, teachers, students, and parents.
-
-## Solution
-
-Design and develop a comprehensive School Management System that addresses the aforementioned challenges. This will be a centralized platform that streamlines administrative processes, enhances communication and collaboration, supports effective academic planning, ensures data security and accessibility. Additionally, it will provide users with a user-friendly and mobile-responsive interface, making it accessible and efficient for all stakeholders. The system will be scalable and customized to meet the unique needs of educational institutions of various sizes and levels.
-
-## MVP (Minimum Viable Product)
-
-- Landing page
-- Login Page
-- Student registration form
-- Unit page
-  - Unit registration form
-  - Unit listings
-- Teachers page
-  - List of units they teach
-- Registration page
-  - Register students
-  - Remove students
-  - Update student info
+- User Registration and Authentication
+- Role-Specific Dashboards
+- Comprehensive Course Administration
+- Attendance Monitoring
+- Academic Gradebook
+- User Entity Management
+- JWT Token-Based Authentication
+- Full CRUD Functionality
+- Enhanced User Security
+- Seamless SQLite Database Integration
 
 ## Technologies Used
-
-### Frontend
-
+### Front-end 
 - React.js
 - React Router
+- Tailwind
 
 ### Backend
 
@@ -38,45 +28,66 @@ Design and develop a comprehensive School Management System that addresses the a
 - SQLAlchemy
 - Flask-Migrate
 - JWT (JSON Web Tokens)
+- Faker
+- Flask-RESTx
 
----
+## Setup
+### 1. Clone the repository
 
-## SDFT-05 PHASE 4 PROJECT REQUIREMENTS
+```txt
+git clone https://github.com/ArshavineRoy/school-management-system
+```
 
-Welcome to project week. It is time to put together a project that accumulates all your skills from the beginning of the unit to this point. This week, you will be required to work in teams and develop full-stack web applications.
+### 2. Navigate to the project's directory
 
-## Project Overview
+```txt
+cd schoolimanagement-system
+```
 
-This document provides a detailed description of what the project is expected to adhere to.
+### 3. Install required dependencies
 
-### Minimum Viable Product
+```python
+pipenv install
 
-#### Single Page Client Application
+npm install --prefix client
+```
 
-- Your client application should be built using the React library.
-- You should have at least 8 routes within your application.
-- You should have at least 5 of your app routes protected. (Protected routes are ones that require some form of authentication needed before accessing them)
-- You should allow the user to reset their password if they have forgotten it.
+### 4. Activate the virtual environment for the Flask app
 
-#### Backend REST API
+```python
+pipenv shell
+```
+### 5. Run the Flask server
 
-- You should have at least 8 endpoints. (At least 2 for each of the following methods: POST, GET, PUT, DELETE)
-- At least 5 of your endpoints should require the user to be logged in in order to access them.
-- You should have at least 4 database models, each model should have at least 4 columns excluding the unique identifier.
-- Within your database schema, have at least two (2); one-to-many relationship(s)
-- Within your database schema, have at least one(1); many-to-many relationship(s)
+You can run the Flask API on [`localhost:5555`](http://localhost:5555) by running:
 
-### Technical Requirements
+```sh
+python server/app.py
+```
 
-- Every single repository should have a detailed README file explaining how to set up the codebase upon cloning/forking.
-- Use JWT for authentication.
-- You should have regular git commits, and the messages should be clear and concise.
-- Your application must be deployed and accessible through a remote URL. (You can choose whichever deployment platform you wish)
-- Your project should be structured in an organized manner.
-- Your web application should have proper styling. Ensure it looks professional and clean.
-- Your app must be a REACT frontend that accesses data from your FLASK API. All client and API interactions should be handled asynchronously and use JSON as the communication format.
-- Your entire app must run on a single page. There should be NO redirects. In other words, your project will contain a single HTML file.
-- Follow good coding practices. Keep your code DRY (Do not repeat yourself) by utilizing functions to abstract repetitive code.
-- Your repository should include a license. [Adding a license to a repository - GitHub Docs](https://docs.github.com/en/enterprise/2.22/admin/enterprise-management/managing-site-policy-for-your-github-enterprise-server-instance/adding-a-license-to-a-repository)
-- Your project MVP MUST be completed within the stipulated timeline.
-- Since this is a group project, you are expected to contribute to a single repository. You can use this page to learn more about this: [Git Remote | Atlassian Git Tutorial](https://www.atlassian.com/git/tutorials/syncing)
+### 6. In another terminal, run the React client from the root
+
+You can run your React app on [`localhost:3000`](http://localhost:3000) by running:
+
+```sh
+npm start --prefix client
+```
+
+## API Endpoints
+
+The application provides several API endpoints for managing students, instructors, and units. Below are the main endpoints:
+
+/students: CRUD operations for students.
+/instructors: CRUD operations for instructors.
+/units: CRUD operations for units.
+/login: User authentication and token generation.
+For detailed information on the available API  visit: http://127.0.0.1:5555
+
+## Authentication
+User authentication is implemented using JWT (JSON Web Tokens). When a user logs in successfully, a JWT token is generated, which 
+
+## Contributing
+Contributions to the Bot Battlr project are welcome! If you find any bugs or want to suggest new features, please create an issue or submit a pull request.
+
+## License
+This project is licensed under the MIT License. Feel free to use, modify, and distribute the code for personal and commercial purposes.

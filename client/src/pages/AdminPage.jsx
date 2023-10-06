@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
+import Stats from "../components/StudentStats";
 import ListTable from "../components/ListTable";
 import AdminStats from "../components/Adminstats";
 
