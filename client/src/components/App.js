@@ -23,16 +23,18 @@ function App() {
     }
   }, [token]);
 
+    // console.log(`user role: ${userRole}`)
+
 
   return (
     <div>
       <main>
         <Switch>
           <Route exact path="/admins/:id">
-            {userRole === "admin" ? <AdminPage /> : <Redirect to="/" />}
+            {userRole === 1 ? <AdminPage /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/students">
-            {userRole === "student" ? <UnitsPage /> : <Redirect to="/" />}
+            {userRole === 3 ? <UnitsPage /> : <Redirect to="/" />}
           </Route>
           {/* <Route exact path="/students/register">
             {userRole === "student" ? <RegisterPage /> : <Redirect to="/" />}
@@ -41,7 +43,7 @@ function App() {
             <RegisterPage />
           </Route>
           <Route exact path="/instructors/:id">
-            {userRole === "instructor" ? <InstructorPage /> : <Redirect to="/" />}
+            {userRole === 2 ? <InstructorPage /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/">
             <LoginPage />

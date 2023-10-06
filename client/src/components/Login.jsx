@@ -39,14 +39,14 @@ const Login = () => {
 
          // Determine the key to use based on the role
         // const idKey = role === "student" ? "studentId" : role==="instructor" ? "instructorId" : "adminId";
-        const idKey = data.role === "student" ? "studentId" : data.role === "instructor" ? "instructorId" : "adminId";
+        const idKey = data.role === 3 ? "studentId" : data.role === 2 ? "instructorId" : "adminId";
         
         // Store the ID using the appropriate key
         localStorage.setItem(idKey, data.id);
 
         // Redirect to the role-specific dashboard
         // history.push(role === "student" ? `/students/${data.id}` : role ===  "instructor" ? `/instructors/${data.id}` : `/admins/${data.id}`);
-        history.push(data.role === "student" ? `/students/${data.id}` : data.role === "instructor" ? `/instructors/${data.id}` : `/admins/${data.id}`);
+        history.push(data.role === 3 ? `/students/${data.id}` : data.role === 2 ? `/instructors/${data.id}` : `/admins/${data.id}`);
       } else {
         const errorMessage = await response.text();
         setFieldError('email', 'Invalid email address or password');
