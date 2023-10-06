@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
-import Stats from "../components/Stats";
+import Stats from "../components/StudentStats";
 import ListTable from "../components/ListTable";
 
 const columns = [

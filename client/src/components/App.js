@@ -6,7 +6,11 @@ import InstructorPage from "./InstructorPage";
 import { Switch, Route, Redirect } from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage";
 import AdminPage from "../pages/AdminPage";
+
+import Student from "./StudentPage";
+
 import jwt_decode from "jwt-decode";
+
 
 
 function App() {
@@ -36,9 +40,15 @@ function App() {
           <Route exact path="/students">
             {userRole === 3 ? <UnitsPage /> : <Redirect to="/" />}
           </Route>
+
+          <Route exact path="/students/:id">
+            <Student/>
+          </Route>
+
           {/* <Route exact path="/students/register">
             {userRole === "student" ? <RegisterPage /> : <Redirect to="/" />}
           </Route> */}
+
           <Route exact path="/students/register">
             <RegisterPage />
           </Route>

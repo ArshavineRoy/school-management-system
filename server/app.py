@@ -89,6 +89,12 @@ login_model = api.model("Login", {
 })
 
 
+login_model = api.model("Login", {
+    "email": fields.String(required=True),
+    "password": fields.String(required=True),
+    "role": fields.String(required=True),
+})
+
 @ns.route("/students")
 class Students(Resource):
 
