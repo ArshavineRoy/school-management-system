@@ -1,38 +1,40 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 
 function NewStudentForm() {
   const [students, setStudents] = useState([]);
-  const [name, setName] = useState("");
-  const [email_address, setEmail_address] = useState("");
-  const [password, setPassword] = useState("");
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  // Yup validation schema
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    email_address: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+  });
+
+  function handleSubmit(values, { setSubmitting, resetForm }) {
     fetch("/students", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: name,
-        email_address: email_address,
-        password: password,
+        name: values.name,
+        email_address: values.email_address,
+        password: values.password,
       }),
     })
       .then((r) => r.json())
       .then((newStudent) => {
-        setName("");
-        setEmail_address("");
-        setPassword("");
-
+        resetForm(); 
         setStudents([...students, newStudent]);
+        setSubmitting(false);
       });
   }
 
   return (
-  
     <div
       className="bg-cover bg-center h-screen flex items-center justify-center"
       style={{ backgroundImage: "url('/assets/images/image-2.jpeg')" }}
@@ -58,71 +60,85 @@ function NewStudentForm() {
             pharetra sit amet aliquam.
           </p>
         </div>
-        <form className="flex-1 p-8 text-green-400" onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-semibold mb-4">
-            Student Registration Form
-          </h2>
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-gray-600 text-sm font-medium mb-2"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-gray-600 text-sm font-medium mb-2"
-            >
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email_address"
-              value={email_address}
-              onChange={(e) => setEmail_address(e.target.value)}
-              className="w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-gray-600 text-sm font-medium mb-2"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full mb-4 p-2 rounded-2xl  border outline-none focus:outline-none focus:border-green-300"
-            />
-          </div>
-          <button
-            className="w-full bg-green-400 text-white mt-2 mb-4 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300"
-            type="submit"
-          >
-            Register
-          </button>
-          <div className='flex justify-end py-3'>
-            <Link to={"/"} className='text-blue-600 text-base'>Already a student? Login.</Link>
-          </div>
-        </form>
+        <Formik
+          initialValues={{
+            name: '',
+            email_address: '',
+            password: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form className="flex-1 p-8 text-green-400">
+              <h2 className="text-2xl font-semibold mb-4">
+                Student Registration Form
+              </h2>
+              <div className="mb-4">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-600 text-sm font-medium mb-2"
+                >
+                  Name
+                </label>
+                <Field
+                  type="text"
+                  name="name"
+                  className="w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300"
+                />
+                <ErrorMessage name="name" component="div" className="text-red-600 text-xs" />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-600 text-sm font-medium mb-2"
+                >
+                  Email Address
+                </label>
+                <Field
+                  type="email"
+                  id="email"
+                  name="email_address"
+                  className="w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300"
+                />
+                <ErrorMessage name="email_address" component="div" className="text-red-600 text-xs" />
+
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="password"
+                  className="block text-gray-600 text-sm font-medium mb-2"
+                >
+                  Password
+                </label>
+                <Field
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="w-full mb-4 p-2 rounded-2xl  border outline-none focus:outline-none focus:border-green-300"
+                />
+                <ErrorMessage name="password" component="div" className="text-red-600 text-xs" />
+
+              </div>              
+              <button
+                className="w-full bg-green-400 text-white mt-2 mb-4 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Register
+              </button>
+              <div className='flex justify-end py-3'>
+                <Link to={"/"} className='text-blue-600 text-base'>Already a student? Login.</Link>
+              </div>
+            </Form>
+          )}
+        </Formik>
+
       </div>
     </div>
 
   );
 }
+
 
 export default NewStudentForm;
