@@ -262,6 +262,63 @@ class UnitByID(Resource):
 
         return {}
 
+      
+@ns.route("/instructor_units/<int:instructor_id>")
+class InstructorUnits(Resource):
+
+    @ns.marshal_list_with(unit_model)
+    def get(self, instructor_id):
+        units_taught = Unit.query.join(Student).filter(Student.instructor_id == instructor_id).all()
+        return units_taught
+
+@ns.route("/student_units/<int:student_id>")
+class StudentUnits(Resource):
+
+    @ns.marshal_list_with(unit_only_model)
+    def get(self, student_id):
+        student = Student.query.get(student_id)
+        units_taken = Unit.query.filter_by(id=student.unit_id).all()
+        return units_taken
+
+      
+@ns.route("/login")
+class Login(Resource):
+    @ns.expect(login_model)
+    def post(self):
+        data = request.get_json()
+        email = data['email']
+        password = data['password']
+        role = data['role']
+
+        # Check the role (student or instructor) and fetch the user
+        if role == 'student':
+            user = Student.query.filter_by(email_address=email).first()
+        elif role == 'instructor':
+            user = Instructor.query.filter_by(email_address=email).first()
+        elif role == 'admin':
+            user = Admin.query.filter_by(email_address=email).first()    
+        else:
+            return {"message": "Invalid role"}, 400
+
+        if not user:
+            return {"message": "User not found"}, 404
+
+        # Check the password
+        if not check_password_hash(user.password_hash, password):
+            return {"message": "Invalid password"}, 401
+
+        # Generate a JWT token
+        token = jwt.encode(
+            {
+                'user_id': user.id,
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)  # Token expiration time
+            },
+            app.config['SECRET_KEY'],
+            algorithm='HS256'
+        )
+
+        return {"message": "Login successful", "token": token, "id": user.id}
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

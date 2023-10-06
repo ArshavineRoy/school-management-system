@@ -57,6 +57,8 @@ function Student() {
     "Dolor sit amet consectetur adipiscing elit ut aliquam purus sit. Urna condimentum mattis pellentesque id nibh tortor id. Ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim.";
   const image = "/assets/images/image-5.png";
   const units_enrolled = units.length
+  const averageAttendance = (student.attendance / 100) * 100;
+
 
 console.log (student)
   return (
@@ -64,10 +66,11 @@ console.log (student)
       <TopHeader />
       <Hero title={title} description={description} image={image} />
       <StudentStats
-        StudentName={student.name}
-        StudentNumber={student.student_number}
+        studentName={student.name}
+        studentNumber={student.student_number}
         unitsEnrolled={units_enrolled}
-        AverageAttendance={student.average_attendance}
+        averageAttendance={averageAttendance} // Pass the percentage
+
       />
       <ListTable
         headers={units_columns}
