@@ -22,11 +22,7 @@ const AdminPanel = () => {
       </div>
 
       {/* Navigation Links */}
-      <div>
-        <Link to="/add-student">Add New Student</Link>
-        <Link to="/add-instructor">Add New Instructor</Link>
-        <Link to="/add-unit">Add New Unit</Link> {/* Updated to "Unit" */}
-      </div>
+     
     </div>
   );
 };
