@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-
 const Login = () => {
-
-  const [error ] = useState("");
-  const history = useHistory();
+  const [error] = useState("");
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
     role: Yup.string().required('Role is required'),
@@ -28,29 +26,26 @@ const Login = () => {
           role: values.role,
         }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
-       
-         // Store the token and role-specific ID in localStorage
-        localStorage.setItem("token", data.token);
 
+        // Store the token and role-specific ID in localStorage
+        localStorage.setItem("token", data.token);
         localStorage.setItem("userRole", data.role);
 
-         // Determine the key to use based on the role
-        // const idKey = role === "student" ? "studentId" : role==="instructor" ? "instructorId" : "adminId";
-        const idKey = data.role === 3 ? "studentId" : data.role === 2 ? "instructorId" : "adminId";
-        
+        const idKey = data.role === parseInt(3) ? "studentId" : data.role === parseInt(2) ? "instructorId" : "adminId";
+
         // Store the ID using the appropriate key
         localStorage.setItem(idKey, data.id);
-
-        // Redirect to the role-specific dashboard
-        // history.push(role === "student" ? `/students/${data.id}` : role ===  "instructor" ? `/instructors/${data.id}` : `/admins/${data.id}`);
-        history.push(data.role === 3 ? `/students/${data.id}` : data.role === 2 ? `/instructors/${data.id}` : `/admins/${data.id}`);
+        
+        // const logInToken = localStorage.getItem("token");
+        // console.log(logInToken);
+        
+        navigate(idKey === "studentId" ? `/students/${data.id}` : idKey === "instructorId" ? `/instructors/${data.id}` : `/admins/${data.id}`);
       } else {
         const errorMessage = await response.text();
         setFieldError('email', 'Invalid email address or password');
-        setSubmitting(false);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -88,7 +83,7 @@ const Login = () => {
         </div>
         <Formik
             initialValues={{
-              role: 'student',
+              role: 'instructor',
               email: '',
               password: '',
             }}
@@ -139,7 +134,7 @@ const Login = () => {
                   Login
                 </button>
                 <div className="flex justify-end py-3">
-                  <Link to={"/students/register"} className="text-blue-600 text-base">New Student? Register here.</Link>
+                  <Link to={"/register"} className="text-blue-600 text-base">New Student? Register here.</Link>
                 </div>
               </Form>
             )}

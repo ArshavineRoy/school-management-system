@@ -1,67 +1,41 @@
 import React, { useEffect, useState } from "react";
+import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import "../App.css";
-import RouterApp from "./Adminrouter"
 import UnitsPage from "../pages/UnitsPage";
 import InstructorPage from "./InstructorPage";
-import { Switch, Route, Redirect } from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage";
 import AdminPage from "../pages/AdminPage";
-
+import LoginPage from "../pages/LoginPage";
 import Student from "./StudentPage";
-
 import jwt_decode from "jwt-decode";
-
-
 
 function App() {
   const [userRole, setUserRole] = useState(null);
 
   const token = localStorage.getItem("token");
+  // console.log(token);
 
   useEffect(() => {
-
     if (token) {
       const decodedToken = jwt_decode(token);
-      const role = decodedToken.role;
+      const role = decodedToken.studentId;
       setUserRole(role);
     }
   }, [token]);
 
-    // console.log(`user role: ${userRole}`)
-
-
   return (
     <div>
       <main>
-        <Switch>
-          <Route exact path="/admins/:id">
-            {userRole === 1 ? <AdminPage /> : <Redirect to="/" />}
-          </Route>
-          <Route exact path="/students">
-            {userRole === 3 ? <UnitsPage /> : <Redirect to="/" />}
-          </Route>
-
-          <Route exact path="/students/:id">
-            <Student/>
-          </Route>
-
-          {/* <Route exact path="/students/register">
-            {userRole === "student" ? <RegisterPage /> : <Redirect to="/" />}
-          </Route> */}
-
-          <Route exact path="/students/register">
-            <RegisterPage />
-          </Route>
-          <Route exact path="/instructors/:id">
-            {userRole === 2 ? <InstructorPage /> : <Redirect to="/" />}
-          </Route>
-          <Route exact path="/">
-            <RouterApp /> {/* Render RouterApp component when the path is the root / */}
-          </Route>
-          <Route>
-            <Redirect to="/" />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/admins/:id" element={<AdminPage />} />
+          {/* <Route path="/students" element={<UnitsPage /> } /> */}
+          <Route path="/students/:id" element={<Student />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/instructors/:id" element={ <InstructorPage />} />
+          <Route path="/admin" element={<Outlet />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       </main>
     </div>
   );
