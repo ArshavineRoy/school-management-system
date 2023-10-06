@@ -8,7 +8,9 @@ from models.instructor import Instructor
 from models.student import Student
 from flask_marshmallow import Marshmallow
 from flask_restx import Api, Resource, Namespace, fields
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
+import datetime
 
 from faker import Faker
 
@@ -78,6 +80,20 @@ instructor_model = api.model("Instructor", {
     "email_address" : fields.String,
     "students" : fields.List(fields.Nested(student_model)),
     })
+
+
+login_model = api.model("Login", {
+    "email": fields.String(required=True),
+    "password": fields.String(required=True),
+    "role": fields.String(required=True),
+})
+
+
+login_model = api.model("Login", {
+    "email": fields.String(required=True),
+    "password": fields.String(required=True),
+    "role": fields.String(required=True),
+})
 
 @ns.route("/students")
 class Students(Resource):
@@ -246,22 +262,6 @@ class UnitByID(Resource):
 
         return {}
 
-@ns.route("/instructor_units/<int:instructor_id>")
-class InstructorUnits(Resource):
-
-    @ns.marshal_list_with(unit_only_model)
-    def get(self, instructor_id):
-        units_taught = Unit.query.join(Student).filter(Student.instructor_id == instructor_id).all()
-        return units_taught
-
-@ns.route("/student_units/<int:student_id>")
-class StudentUnits(Resource):
-
-    @ns.marshal_list_with(unit_only_model)
-    def get(self, student_id):
-        student = Student.query.get(student_id)
-        units_taken = Unit.query.filter_by(id=student.unit_id).all()
-        return units_taken
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

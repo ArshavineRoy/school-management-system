@@ -104,26 +104,6 @@ if __name__ == "__main__":
 
         print("🦸‍♀️ Seeding students...")
 
-        # students =[]
-        # for unit in units:            
-        #     for i in range(random.randint(1, 2)):
-        #         new_student=Student(
-        #             student_number=f'ECE211-{fake.unique.random_int(min=3000, max=6000)}/2023',
-        #             name=fake.name(),
-        #             email_address=fake.ascii_free_email(),
-        #             password_hash= generate_password_hash("1234", method='scrypt'),
-        #             grade=random.randint(10, 100),
-        #             attendance=random.randint(0, 100),
-        #             role_id=3,
-        #             unit_id = unit.id,
-        #             instructor_id = random.choice(instructors).id,
-        #         )
-
-        #         students.append(new_student)
-
-        # db.session.add_all(students)
-        # db.session.commit()
-
         unique_student_numbers = set()
         students = []
         for unit in units:

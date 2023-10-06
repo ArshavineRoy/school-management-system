@@ -1,42 +1,29 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import React from "react";
+import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
 import StudentStats from "../components/StudentStats";
 import ListTable from "../components/ListTable";
 
 function Student() {
-  const [{ data: student,instructor, error, status }, setStudent] = useState({
+  const [{ data: student, error, status }, setStudent] = useState({
     data: null,
     error: null,
     status: "pending",
   });
+  const [ units, setUnits] = useState([]);
   const { id } = useParams();
 
-  const columns = [
+  const units_columns = [
     {
       field: "id",
-      headerName: "Unit Number",
-      width: 160,
+      headerName: "Unit Code",
+      width: 200,
     },
-    {
-      field: "unit_name",
-      headerName: "Unit Name",
-      width: 250,
-    },
-    {
-      field: "grade",
-      headerName: "Current Grade",
-      width: 160,
-    },
-    {
-      field: "attendance",
-      headerName: "Average Attedance",
-      width: 170,
-    },
-    { field: "instructor_name", 
-      headerName: "Instructor", 
-      width: 180 
+    { field: "name", 
+      headerName: "Unit Name", 
+      width: 700 
     },
   ];
 
@@ -52,7 +39,15 @@ function Student() {
         );
       }
     });
-  }, [id]);
+    fetch(`/student_units/${id}`).then((r) => {
+      if (r.ok) {
+        r.json().then((units) =>
+        setUnits(units)
+        );
+      }
+    });
+  },[id]);
+
 
   if (status === "pending") return <h1>Loading...</h1>;
   if (status === "rejected") return <h1>Error: {error.error}</h1>;
@@ -61,47 +56,30 @@ function Student() {
   const description =
     "Dolor sit amet consectetur adipiscing elit ut aliquam purus sit. Urna condimentum mattis pellentesque id nibh tortor id. Ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim.";
   const image = "/assets/images/image-5.png";
-  // const student_number = instructor.students.length
+  const units_enrolled = units.length
 
 console.log (student)
   return (
     <div>
       <TopHeader />
-      <Student title={title} description={description} image={image} />
+      <Hero title={title} description={description} image={image} />
       <StudentStats
         StudentName={student.name}
         StudentNumber={student.student_number}
-        unitsEnrolled={5}
+        unitsEnrolled={units_enrolled}
         AverageAttendance={student.average_attendance}
       />
       <ListTable
-        headers={columns}
-        data={student.units.map((unit) => ({
-          id: unit.unit_number,
-          unit_name: unit.name,
-          grade: `${student.grade}%`,
-          attendance: `${student.attendance}%`,
-          instructor: instructor.name,
+        headers={units_columns}
+        data={units.map((unit) => ({
+          id: unit.unit_code,
+          name: unit.name,
+
         }))}
-        title='Your Units'
+        title='List of Units'
       />
     </div>
-    // <section>
-    //   <h3>Name: {student.name}</h3>
-    //   <h3>Reg Number: {student.student_number}</h3>
-    //   <h3>Grade: {student.grade}%</h3>
-    //   <h3>Attendance: {student.attendance}%</h3>
 
-    //   <h3>Units:</h3>
-    //   <ul>
-    //     {student.units.map((unit) => (
-    //       <li key={student.id}>
-    //         <Link to={`/units/${unit.id}`}>{unit.name}</Link>
-    //       </li>
-    //     ))}
-    //   </ul>
-
-    // </section>
     
   );
 }
