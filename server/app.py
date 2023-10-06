@@ -283,6 +283,7 @@ class Login(Resource):
         email = data['email']
         password = data['password']
         user_role = data['role']
+        
 
         # Check the role (student or instructor) and fetch the user
         if user_role == 'student':
@@ -301,27 +302,21 @@ class Login(Resource):
         if not check_password_hash(user.password_hash, password):
             return {"message": "Invalid password"}, 401
         
+        role_id = Role.query.get(user.role_id).id
 
-        role_name = Role.query.get(user.role_id).name.lower()
-
-        print(role_name)
 
         # Generate a JWT token
         token = jwt.encode(
             {
                 'user_id': user.id,
-                'role' : role_name,
+                'role' : role_id,
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=59) 
             },
             app.config['SECRET_KEY'],
             algorithm='HS256'
         )
 
-        # print(jwt.decode(jwt=token,
-        #                 key=app.config['SECRET_KEY'],
-        #                 algorithms=["HS256"]))
-
-        return {"message": "Login successful", "token": token, "id": user.id}
+        return {"message": "Login successful", "token": token, "id": user.id, "role": role_id}
 
 
 if __name__ == '__main__':
