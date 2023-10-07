@@ -137,12 +137,7 @@ function AdminPage() {
     {
       field: "email_address",
       headerName: "Email Address",
-      width: 400,
-    },
-    {
-      field: "grade",
-      headerName: "Current Grade",
-      width: 150,
+      width: 540,
     },
     {
       field: "attendance",
@@ -220,7 +215,7 @@ function AdminPage() {
       ),
     },
   ];
-
+  // student_number
   const unit_columns = [
     {
       field: "id",
@@ -230,7 +225,12 @@ function AdminPage() {
     {
       field: "unit_name",
       headerName: "Unit Name",
-      width: 1000,
+      width: 800,
+    },
+    {
+      field: "student_number",
+      headerName: "No. of Students",
+      width: 200,
     },
     {
       field: "update",
@@ -282,7 +282,6 @@ function AdminPage() {
           id: student.student_number,
           student_name: student.name,
           email_address: student.email_address,
-          grade: `${student.grade}%`,
           attendance: `${student.attendance}%`,
         }))}
         title="List of Students"
@@ -307,6 +306,7 @@ function AdminPage() {
         data={units.map((unit) => ({
           id: unit.unit_code,
           unit_name: unit.name,
+          student_number : unit.students.length,
         }))}
         title="List of Units"
       />
@@ -352,7 +352,7 @@ function AdminPage() {
       </div>
 
       {tableToRender}
-      
+
     </div>
   );
 }
