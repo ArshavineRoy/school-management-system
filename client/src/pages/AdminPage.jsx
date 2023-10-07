@@ -166,7 +166,7 @@ function AdminPage() {
       renderCell: (params) => (
         <button
           className="bg-blue-500 rounded px-3 py-2 text-white cursor-pointer"
-          // onClick={() => handleUpdateStudent(params.row.id)}
+          // onClick={() => handleUpdateInstructor(params.row.id)}
         >
           Edit
         </button>
@@ -179,7 +179,7 @@ function AdminPage() {
       renderCell: (params) => (
         <button
           className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
-          onClick={() => handleDeleteStudent(params.row.id)}
+          // onClick={() => handleDeleteInstructor(params.row.id)}
         >
           Delete
         </button>
@@ -205,7 +205,7 @@ function AdminPage() {
       renderCell: (params) => (
         <button
           className="bg-blue-500 rounded px-3 py-2 text-white cursor-pointer"
-          // onClick={() => handleUpdateStudent(params.row.id)}
+          // onClick={() => handleUpdateInstructor(params.row.id)}
         >
           Edit
         </button>
@@ -218,7 +218,7 @@ function AdminPage() {
       renderCell: (params) => (
         <button
           className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
-          onClick={() => handleDeleteStudent(params.row.id)}
+          // onClick={() => handleDeleteUnit(params.row.id)}
         >
           Delete
         </button>

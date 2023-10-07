@@ -153,6 +153,34 @@ class StudentByID(Resource):
 
         return {}
 
+@ns.route("/students/<string:email>")
+class StudentByEmail(Resource):
+
+    @ns.marshal_with(student_model)
+    def get(self, email):
+        return Student.query.filter_by(email_address=email).first()
+    
+
+    @ns.marshal_with(student_model)
+    def patch(self, email):
+        student = Student.query.filter_by(email_address=email).first()
+
+        for attr in request.get_json():
+            setattr(student, attr, request.get_json()[attr])
+
+        db.session.add(student)
+        db.session.commit()
+
+        return student
+
+    def delete(self, email):
+        student = Student.query.filter_by(email_address=email).first()
+
+        db.session.delete(student)
+        db.session.commit()
+
+        return {}
+
 
 @ns.route("/instructors")
 class Instructors(Resource):
