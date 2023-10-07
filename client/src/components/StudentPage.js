@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import React from "react";
 import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
