@@ -83,7 +83,7 @@ const Login = () => {
         </div>
         <Formik
             initialValues={{
-              role: 'instructor',
+              role: 'admin',
               email: '',
               password: '',
             }}

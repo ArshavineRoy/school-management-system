@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const AdminStats = ({ studentCount, instructorCount, unitCount }) => {
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center" >
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:p-8 rounded-lg">
         <div className="flex flex-col justify-center align-center shadow p-8 stat-card-1">
           <Link to="/students"> Students</Link>

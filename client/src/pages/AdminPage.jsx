@@ -7,6 +7,9 @@ import AdminStats from "../components/Adminstats";
 
 function AdminPage() {
   const [students, setStudents] = useState([]);
+  const [instructors, setInstructors] = useState([]);
+  const [units, setUnits] = useState([]);
+
   const [instructorsCount, setInstructorsCount] = useState(0);
   const [unitsCount, setUnitsCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -32,6 +35,7 @@ function AdminPage() {
   };
 
   useEffect(() => {
+
     // Fetch students
     fetch("/students")
       .then((response) => {
@@ -40,8 +44,8 @@ function AdminPage() {
         }
         return response.json();
       })
-      .then((data) => {
-        setStudents(data);
+      .then((students) => {
+        setStudents(students);
         setLoading(false);
       })
       .catch((error) => {
@@ -49,7 +53,7 @@ function AdminPage() {
         setLoading(false);
       });
 
-    // Fetch instructors count (replace with actual data)
+    // Fetch instructors
     fetch("/instructors")
       .then((response) => {
         if (!response.ok) {
@@ -57,14 +61,15 @@ function AdminPage() {
         }
         return response.json();
       })
-      .then((data) => {
-        setInstructorsCount(data.length);
+      .then((instructors) => {
+        setInstructors(instructors)
+        setInstructorsCount(instructors.length);
       })
       .catch((error) => {
-        setError(error); // Updated to setError(error) for proper error handling
+        setError(error);
       });
 
-    // Fetch units count (replace with actual data)
+    // Fetch units
     fetch("/units")
       .then((response) => {
         if (!response.ok) {
@@ -72,11 +77,12 @@ function AdminPage() {
         }
         return response.json();
       })
-      .then((data) => {
-        setUnitsCount(data.length);
+      .then((units) => {
+        setUnits(units)
+        setUnitsCount(units.length);
       })
       .catch((error) => {
-        setError(error); // Updated to setError(error) for proper error handling
+        setError(error);
       });
   }, []);
 
@@ -87,17 +93,17 @@ function AdminPage() {
     {
       field: "id",
       headerName: "Student No",
-      width: 120,
+      width: 220,
     },
     {
       field: "student_name",
       headerName: "Student Name",
-      width: 200,
+      width: 280,
     },
     {
       field: "email_address",
       headerName: "Email Address",
-      width: 300,
+      width: 400,
     },
     {
       field: "grade",
@@ -110,9 +116,22 @@ function AdminPage() {
       width: 150,
     },
     {
+      field: "update",
+      headerName: "Update",
+      width: 120,
+      renderCell: (params) => (
+        <button
+          className="bg-blue-500 rounded px-3 py-2 text-white cursor-pointer"
+          // onClick={() => handleUpdateStudent(params.row.id)}
+        >
+          Edit
+        </button>
+      ),
+    },
+    {
       field: "delete",
       headerName: "Delete",
-      width: 100,
+      width: 120,
       renderCell: (params) => (
         <button
           className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
@@ -123,6 +142,89 @@ function AdminPage() {
       ),
     },
   ];
+
+  const instructor_columns = [
+    {
+      field: "id",
+      headerName: "Staff No",
+      width: 160,
+    },
+    {
+      field: "instructor_name",
+      headerName: "Instructor Name",
+      width: 380,
+    },
+    {
+      field: "email_address",
+      headerName: "Email Address",
+      width: 650,
+    },
+    {
+      field: "update",
+      headerName: "Update",
+      width: 120,
+      renderCell: (params) => (
+        <button
+          className="bg-blue-500 rounded px-3 py-2 text-white cursor-pointer"
+          // onClick={() => handleUpdateStudent(params.row.id)}
+        >
+          Edit
+        </button>
+      ),
+    },
+    {
+      field: "delete",
+      headerName: "Delete",
+      width: 120,
+      renderCell: (params) => (
+        <button
+          className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
+          onClick={() => handleDeleteStudent(params.row.id)}
+        >
+          Delete
+        </button>
+      ),
+    },
+  ];
+
+  const unit_columns = [
+    {
+      field: "id",
+      headerName: "Unit Code",
+      width: 200,
+    },
+    {
+      field: "unit_name",
+      headerName: "Unit Name",
+      width: 1000,
+    },
+    {
+      field: "update",
+      headerName: "Update",
+      width: 120,
+      renderCell: (params) => (
+        <button
+          className="bg-blue-500 rounded px-3 py-2 text-white cursor-pointer"
+          // onClick={() => handleUpdateStudent(params.row.id)}
+        >
+          Edit
+        </button>
+      ),
+    },
+    {
+      field: "delete",
+      headerName: "Delete",
+      width: 120,
+      renderCell: (params) => (
+        <button
+          className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
+          onClick={() => handleDeleteStudent(params.row.id)}
+        >
+          Delete
+        </button>
+      ),
+    },
+  ]
 
   const title = "Hello, Admin";
   const description =
@@ -136,21 +238,52 @@ function AdminPage() {
     <div>
       <TopHeader />
       <Hero title={title} description={description} image={image} />
-      <AdminStats
-        studentCount={studentCount}
-        instructorCount={instructorsCount} // Display instructor count
-        unitCount={unitsCount} // Display unit count
-      />
+
+      {/* Admin stats */}
+      <div className="w-full flex justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:p-8 rounded-lg">
+          <button className="flex flex-col justify-center items-center rounded-md shadow p-8 stat-card-1">
+            <h6 className="font-bold">Total Students</h6>
+            <div className="text-xl  font-semibold mb-2">{studentCount}</div>
+          </button>
+          <button className="flex flex-col justify-center items-center rounded-md shadow p-8 stat-card-2">
+            <h6 to="/instructors" className="font-bold"> Total Instructors</h6>
+            <div className="text-xl font-semibold mb-2">{instructorsCount}</div>
+          </button>
+          <button className="flex flex-col justify-center items-center rounded-md shadow-lg p-8 stat-card-3">
+            <h1 className="font-bold">Total Units</h1>
+            <div className="text-xl font-semibold mb-2">{unitsCount}</div>
+          </button>
+
+        </div>
+      </div>
       <ListTable
         headers={student_columns}
         data={students.map((student) => ({
-          id: student.id,
+          id: student.student_number,
           student_name: student.name,
           email_address: student.email_address,
           grade: `${student.grade}%`,
           attendance: `${student.attendance}%`,
         }))}
         title="List of Students"
+      />
+      <ListTable
+        headers={instructor_columns}
+        data={instructors.map((instructor) => ({
+          id: instructor.staff_number,
+          instructor_name: instructor.name,
+          email_address: instructor.email_address,
+        }))}
+        title="List of Instructors"
+      />
+      <ListTable
+        headers={unit_columns}
+        data={units.map((unit) => ({
+          id: unit.unit_code,
+          unit_name: unit.name,
+        }))}
+        title="List of Units"
       />
     </div>
   );
