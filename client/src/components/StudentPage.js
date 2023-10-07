@@ -19,11 +19,19 @@ function Student() {
     {
       field: "id",
       headerName: "Unit Code",
-      width: 200,
+      width: 250,
     },
     { field: "name", 
       headerName: "Unit Name", 
       width: 700 
+    },
+    { field: "grade", 
+    headerName: "Grade", 
+    width: 240 
+    },
+    { field: "attendance", 
+    headerName: "Attendance", 
+    width: 250 
     },
   ];
 
@@ -77,7 +85,8 @@ console.log (student)
         data={units.map((unit) => ({
           id: unit.unit_code,
           name: unit.name,
-
+          grade: `${student.grade}%`,
+          attendance: `${student.attendance}%`,
         }))}
         title='List of Units'
       />
