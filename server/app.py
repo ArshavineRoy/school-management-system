@@ -237,6 +237,34 @@ class InstructorByID(Resource):
 
         return {}
 
+@ns.route("/instructors/<string:email>")
+class InstructorByEmail(Resource):
+
+    @ns.marshal_with(instructor_model)
+    def get(self, email):
+        return Instructor.query.filter_by(email_address=email).first()
+    
+
+    @ns.marshal_with(instructor_model)
+    def patch(self, email):
+        instructor = Instructor.query.filter_by(email_address=email).first()
+
+        for attr in request.get_json():
+            setattr(instructor, attr, request.get_json()[attr])
+
+        db.session.add(instructor)
+        db.session.commit()
+
+        return instructor
+
+    def delete(self, email):
+        instructor = Instructor.query.filter_by(email_address=email).first()
+
+        db.session.delete(instructor)
+        db.session.commit()
+
+        return {}
+
 
 @ns.route("/units")
 class Units(Resource):
@@ -284,6 +312,34 @@ class UnitByID(Resource):
     
     def delete(self, id):
         unit = Unit.query.get(id)
+
+        db.session.delete(unit)
+        db.session.commit()
+
+        return {}
+    
+@ns.route("/units/<string:code>")
+class UnitByUnitCode(Resource):
+
+    @ns.marshal_with(unit_model)
+    def get(self, code):
+        return Unit.query.filter_by(unit_code=code).first()
+    
+    @ns.marshal_with(unit_model)
+    def patch(self, code):
+        unit = Unit.query.filter_by(unit_code=code).first()
+
+        for attr in request.get_json():
+            setattr(unit, attr, request.get_json()[attr])
+
+        db.session.add(unit)
+        db.session.commit()
+
+        return unit
+
+    
+    def delete(self, code):
+        unit = Unit.query.filter_by(unit_code=code).first()
 
         db.session.delete(unit)
         db.session.commit()
