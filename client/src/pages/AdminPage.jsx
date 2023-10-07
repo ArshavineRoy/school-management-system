@@ -11,6 +11,8 @@ function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [selectedTable, setSelectedTable] = useState("students");
+
   const handleDeleteStudent = (email) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this student?");
     if (confirmDelete) {
@@ -258,41 +260,23 @@ function AdminPage() {
     },
   ]
 
-  const title = "Hello, Admin";
-  const description =
-    "Dolor sit amet consectetur adipiscing elit ut aliquam purus sit. Urna condimentum mattis pellentesque id nibh tortor id. Ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim.";
-  const image = "/assets/images/image-5.png";
-
-  // Calculate some dummy values for studentCount
   const studentCount = students.length;
   const instructorsCount = instructors.length;
   const unitsCount = units.length;
 
+  const title = "Hello, Admin";
+  const description = ` Welcome to the Admin Panel! There are currently ${studentCount} students, ${instructorsCount} instructors, and ${unitsCount} units in the system.
 
-  return (
-    <div>
-      <TopHeader />
-      <Hero title={title} description={description} image={image} />
+  This platform empowers you to manage various aspects of our educational system with ease.
+  Use the card buttons below to view and edit student, instructor, and unit details or remove them from the system.
+  We're here to assist you in ensuring a seamless educational experience for students and staff. If you have any questions or need assistance, don't hesitate to reach out to our support team.
+`;
+  const image = "/assets/images/image-5.png";
 
-      {/* Admin stats */}
-      <div className="w-full flex justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:p-8 rounded-lg">
-          <button className="flex flex-col justify-center items-center rounded-md shadow p-8 stat-card-1">
-            <h6 className="font-bold">Total Students</h6>
-            <div className="text-xl  font-semibold mb-2">{studentCount}</div>
-          </button>
-          <button className="flex flex-col justify-center items-center rounded-md shadow p-8 stat-card-2">
-            <h6 to="/instructors" className="font-bold"> Total Instructors</h6>
-            <div className="text-xl font-semibold mb-2">{instructorsCount}</div>
-          </button>
-          <button className="flex flex-col justify-center items-center rounded-md shadow-lg p-8 stat-card-3">
-            <h1 className="font-bold">Total Units</h1>
-            <div className="text-xl font-semibold mb-2">{unitsCount}</div>
-          </button>
-
-        </div>
-      </div>
-      {/* <ListTable
+  let tableToRender;
+  if (selectedTable === "students") {
+    tableToRender = (
+      <ListTable
         headers={student_columns}
         data={students.map((student) => ({
           id: student.student_number,
@@ -302,8 +286,11 @@ function AdminPage() {
           attendance: `${student.attendance}%`,
         }))}
         title="List of Students"
-      /> */}
-      {/* <ListTable
+      />
+    );
+  } else if (selectedTable === "instructors") {
+    tableToRender = (
+      <ListTable
         headers={instructor_columns}
         data={instructors.map((instructor) => ({
           id: instructor.staff_number,
@@ -311,7 +298,10 @@ function AdminPage() {
           email_address: instructor.email_address,
         }))}
         title="List of Instructors"
-      /> */}
+      />
+    );
+  } else if (selectedTable === "units") {
+    tableToRender = (
       <ListTable
         headers={unit_columns}
         data={units.map((unit) => ({
@@ -320,8 +310,50 @@ function AdminPage() {
         }))}
         title="List of Units"
       />
+    );
+  }
+
+  return (
+    <div>
+      <TopHeader />
+      <Hero title={title} description=<div style={{ whiteSpace: "pre-line" }}>{description}</div> image={image} />
+
+      {/* Admin stats */}
+      <div className="w-full flex justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:p-8 rounded-lg">
+          <button
+            className="flex flex-col justify-center items-center rounded-md shadow p-8 stat-card-1"
+            onClick={() => setSelectedTable("students")}
+          >
+            <h6 className="font-bold">Students</h6>
+            <div className="text-xl text-gray-800 mb-2">{studentCount}</div>
+          </button>
+          <button
+            className="flex flex-col justify-center items-center rounded-md shadow p-8 stat-card-2"
+            onClick={() => setSelectedTable("instructors")}
+          >
+            <h6 className="font-bold">
+              Instructors
+            </h6>
+            <div className="text-xl text-gray-800 mb-2">{instructorsCount}</div>
+          </button>
+          <button
+            className="flex flex-col justify-center items-center rounded-md shadow-lg p-8 stat-card-3"
+            onClick={() => setSelectedTable("units")}
+          >
+            <h1 className="font-bold">Units</h1>
+            <div className="text-xl text-gray-800 mb-2">{unitsCount}</div>
+          </button>
+          <div className="flex flex-col justify-center items-center rounded-md shadow-lg p-8 stat-card-4">
+            <h6 className="font-bold">System Status</h6>
+          <div className="text-xl text-gray-800 mb-2">Healthy</div>
+        </div>
+        </div>
+      </div>
+
+      {tableToRender}
+      
     </div>
   );
 }
-
 export default AdminPage;
