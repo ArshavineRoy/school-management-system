@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
-import Stats from "../components/StudentStats";
 import ListTable from "../components/ListTable";
-import AdminStats from "../components/Adminstats";
 
 function AdminPage() {
   const [students, setStudents] = useState([]);
   const [instructors, setInstructors] = useState([]);
   const [units, setUnits] = useState([]);
 
-  const [instructorsCount, setInstructorsCount] = useState(0);
-  const [unitsCount, setUnitsCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const handleDeleteStudent = (id) => {
+  const handleDeleteStudent = (email) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this student?");
     if (confirmDelete) {
-      fetch(`/students/${id}`, {
+      fetch(`/students/${email}`, {
         method: "DELETE",
       })
         .then((response) => {
@@ -26,7 +22,45 @@ function AdminPage() {
             throw new Error("Network response was not ok");
           }
           // Remove the deleted student from the state
-          setStudents((prevStudents) => prevStudents.filter((student) => student.id !== id));
+          setStudents((prevStudents) => prevStudents.filter((student) => student.email_address !== email));
+        })
+        .catch((error) => {
+          setError(error);
+        });
+    }
+  };
+
+  const handleDeleteInstructor = (email) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this instructor?");
+    if (confirmDelete) {
+      fetch(`/instructors/${email}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          // Remove the deleted unit from the state
+          setInstructors((prevInstructors) => prevInstructors.filter((instructor) => instructor.email_address !== email));
+        })
+        .catch((error) => {
+          setError(error);
+        });
+    }
+  };
+
+  const handleDeleteUnit = (code) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this unit?");
+    if (confirmDelete) {
+      fetch(`/units/${code}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          // Remove the deleted unit from the state
+          setUnits((prevUnits) => prevUnits.filter((unit) => unit.unit_code !== code));
         })
         .catch((error) => {
           setError(error);
@@ -63,7 +97,6 @@ function AdminPage() {
       })
       .then((instructors) => {
         setInstructors(instructors)
-        setInstructorsCount(instructors.length);
       })
       .catch((error) => {
         setError(error);
@@ -79,7 +112,6 @@ function AdminPage() {
       })
       .then((units) => {
         setUnits(units)
-        setUnitsCount(units.length);
       })
       .catch((error) => {
         setError(error);
@@ -135,7 +167,7 @@ function AdminPage() {
       renderCell: (params) => (
         <button
           className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
-          onClick={() => handleDeleteStudent(params.row.id)}
+          onClick={() => handleDeleteStudent(params.row.email_address)}
         >
           Delete
         </button>
@@ -179,7 +211,7 @@ function AdminPage() {
       renderCell: (params) => (
         <button
           className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
-          // onClick={() => handleDeleteInstructor(params.row.id)}
+          onClick={() => handleDeleteInstructor(params.row.email_address)}
         >
           Delete
         </button>
@@ -205,7 +237,7 @@ function AdminPage() {
       renderCell: (params) => (
         <button
           className="bg-blue-500 rounded px-3 py-2 text-white cursor-pointer"
-          // onClick={() => handleUpdateInstructor(params.row.id)}
+          // onClick={() => handleUpdateUnit(params.row.id)}
         >
           Edit
         </button>
@@ -218,7 +250,7 @@ function AdminPage() {
       renderCell: (params) => (
         <button
           className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
-          // onClick={() => handleDeleteUnit(params.row.id)}
+          onClick={() => handleDeleteUnit(params.row.id)}
         >
           Delete
         </button>
@@ -233,6 +265,9 @@ function AdminPage() {
 
   // Calculate some dummy values for studentCount
   const studentCount = students.length;
+  const instructorsCount = instructors.length;
+  const unitsCount = units.length;
+
 
   return (
     <div>
@@ -257,7 +292,7 @@ function AdminPage() {
 
         </div>
       </div>
-      <ListTable
+      {/* <ListTable
         headers={student_columns}
         data={students.map((student) => ({
           id: student.student_number,
@@ -267,8 +302,8 @@ function AdminPage() {
           attendance: `${student.attendance}%`,
         }))}
         title="List of Students"
-      />
-      <ListTable
+      /> */}
+      {/* <ListTable
         headers={instructor_columns}
         data={instructors.map((instructor) => ({
           id: instructor.staff_number,
@@ -276,7 +311,7 @@ function AdminPage() {
           email_address: instructor.email_address,
         }))}
         title="List of Instructors"
-      />
+      /> */}
       <ListTable
         headers={unit_columns}
         data={units.map((unit) => ({
