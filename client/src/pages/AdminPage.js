@@ -440,13 +440,6 @@ function AdminPage() {
 
       {tableToRender}
 
-      <button
-        className="bg-blue-500 rounded px-3 py-2 text-white cursor-pointer"
-        onClick={openEditModal}
-      >
-        Edit
-      </button>
-
       {/* Update Student Details Modal */}
       {isEditModalOpen && (
         <div
