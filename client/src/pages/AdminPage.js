@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
 import ListTable from "../components/ListTable";
+import { useAuthorization } from "../components/Authorize";
 
 function AdminPage() {
+  useAuthorization([1]);
   const [students, setStudents] = useState([]);
   const [instructors, setInstructors] = useState([]);
   const [units, setUnits] = useState([]);

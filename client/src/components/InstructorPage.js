@@ -5,8 +5,12 @@ import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
 import InstructorStats from "../components/InstructorStats";
 import ListTable from "../components/ListTable";
+import { useAuthorization } from "../components/Authorize";
+
 
 function InstructorPage() {
+  useAuthorization([2]);
+
   const [{ data: instructor, error, status }, setInstructor] = useState({
     data: null,
     error: null,
@@ -36,9 +40,7 @@ function InstructorPage() {
         return (
           <button
             className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
-            // onClick={() => handleGetStudents(params.row)}
             onClick={() => handleGetStudents(params.row.students)}
-            // onClick={() => console.log(params.row.students)}
           >
             View Students
           </button>
@@ -95,7 +97,6 @@ function InstructorPage() {
   }, [id]);
 
   const handleGetStudents = (students) => {
-    // console.log(students)
     setStudents(students);
   };
 

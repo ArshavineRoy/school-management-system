@@ -5,8 +5,12 @@ import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
 import StudentStats from "../components/StudentStats";
 import ListTable from "../components/ListTable";
+import { useAuthorization } from "../components/Authorize";
+
 
 function Student() {
+  useAuthorization([3]);
+
   const [{ data: student, error, status }, setStudent] = useState({
     data: null,
     error: null,

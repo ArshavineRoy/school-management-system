@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+
 const Login = () => {
   const [error] = useState("");
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Login = () => {
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
 
-  const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
+  const handleSubmit = async (values) => {
     try {
       const response = await fetch("/login", {
         method: "POST",
@@ -26,33 +27,114 @@ const Login = () => {
           role: values.role,
         }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
-
-        // Store the token and role-specific ID in localStorage
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.id);
         localStorage.setItem("userRole", data.role);
-
-        const idKey = data.role === parseInt(3) ? "studentId" : data.role === parseInt(2) ? "instructorId" : "adminId";
-
-        // Store the ID using the appropriate key
-        localStorage.setItem(idKey, data.id);
-        
-        // const logInToken = localStorage.getItem("token");
-        // console.log(logInToken);
-        
-        navigate(idKey === "studentId" ? `/students/${data.id}` : idKey === "instructorId" ? `/instructors/${data.id}` : `/admins/${data.id}`);
+  
+        // Redirect users based on their roles
+        switch (parseInt(data.role)) {
+          case 1: // Admin
+            navigate(`/admins/${data.id}`);
+            break;
+          case 2: // Instructor
+            navigate(`/instructors/${data.id}`);
+            break;
+          case 3: // Student
+            navigate(`/students/${data.id}`);
+            break;
+          default:
+            navigate("/"); // Redirect to the home page for unknown roles
+            break;
+        }
       } else {
-        const errorMessage = await response.text();
-        setFieldError('email', 'Invalid email address or password');
+        console.log("Failed to log in.");
+        // Handle login failure
+        // You can set an error message in state here
       }
     } catch (error) {
       console.error("Error:", error);
-    } finally {
-      setSubmitting(false);
     }
   };
+  
+
+  // const handleSubmit = async (values, { setFieldError }) => {
+  //   try {
+  //     const response = await fetch("/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email: values.email,
+  //         password: values.password,
+  //         role: values.role,
+  //       }),
+  //     });
+  
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       localStorage.setItem("token", data.token);
+  //       localStorage.setItem("userId", data.id);
+  //       localStorage.setItem("userRole", data.role);
+  //       navigate("/"); // Redirect to the home page or a dashboard
+  //     } else {
+  //       const errorMessage = await response.text();
+  //       setFieldError('email', 'Invalid email address or password');
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+  
+
+  // const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
+  //   try {
+  //     const response = await fetch("/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email: values.email,
+  //         password: values.password,
+  //         role: values.role,
+  //       }),
+  //     });
+
+  //     if (response.ok) {
+  //       const data = await response.json();
+
+  //       // Store the token and role-specific ID in localStorage
+  //       localStorage.setItem("token", data.token);
+  //       // localStorage.setItem("userRole", data.role);
+
+  //       // const idKey = data.role === parseInt(3) ? "studentId" : data.role === parseInt(2) ? "instructorId" : "adminId";
+
+  //       // Store the ID using the appropriate key
+  //       // localStorage.setItem(idKey, data.id);
+        
+  //       // const logInToken = localStorage.getItem("token");
+  //       // console.log(logInToken);
+  //     // const token = localStorage.getItem("token");
+
+
+  //       console.log(s);
+
+        
+  //       navigate(data.role === 3 ? `/students/${data.id}` : data.role === 2 ? `/instructors/${data.id}` : `/admins/${data.id}`);
+  //     } else {
+  //       const errorMessage = await response.text();
+  //       setFieldError('email', 'Invalid email address or password'); 
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
 
   return (
     <div

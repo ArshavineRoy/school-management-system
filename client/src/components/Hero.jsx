@@ -22,3 +22,5 @@ const Hero = ({ title, description, image }) => {
 };
 
 export default Hero;
+
+

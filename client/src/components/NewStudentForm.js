@@ -6,7 +6,6 @@ import * as Yup from "yup";
 function NewStudentForm() {
   const [students, setStudents] = useState([]);
 
-  // Yup validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email_address: Yup.string()
