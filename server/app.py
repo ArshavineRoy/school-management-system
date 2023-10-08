@@ -167,6 +167,7 @@ class StudentByEmail(Resource):
 
         for attr in request.get_json():
             setattr(student, attr, request.get_json()[attr])
+            print(request.get_json()[attr])
 
         db.session.add(student)
         db.session.commit()

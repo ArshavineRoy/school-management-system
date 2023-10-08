@@ -70,6 +70,7 @@ function Student() {
 
 console.log (student)
   return (
+    <>
     <div>
       <TopHeader />
       <Hero title={title} description={description} image={image} />
@@ -91,8 +92,8 @@ console.log (student)
         title='List of Units'
       />
     </div>
-
     
+  </>    
   );
 }
 export default Student;
