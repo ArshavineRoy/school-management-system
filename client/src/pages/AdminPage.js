@@ -535,7 +535,6 @@ function AdminPage() {
                       />
                     </div>
                     <button
-                      onClick={closeEditModal}
                       className="w-full bg-green-400 text-white mt-2 mb-4 py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300"
                       type="submit"
                     >
