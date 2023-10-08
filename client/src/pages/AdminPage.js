@@ -73,7 +73,6 @@ function AdminPage() {
               : prevStudent
           )
         );
-        console.log(updatedStudent.attendance);
         // Close the edit modal
         closeEditModal();
       })

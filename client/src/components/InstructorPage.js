@@ -21,17 +21,17 @@ function InstructorPage() {
     {
       field: "id",
       headerName: "Unit Code",
-      width: 200,
+      width: 300,
     },
     {
       field: "name",
       headerName: "Unit Name",
-      width: 700,
+      width: 840,
     },
     {
       field: "action",
       headerName: "Action",
-      width: 500,
+      width: 300,
       renderCell: (params) => {
         return (
           <button
@@ -51,27 +51,27 @@ function InstructorPage() {
     {
       field: "id",
       headerName: "Student No",
-      width: 160,
+      width: 220,
     },
     {
       field: "student_name",
       headerName: "Student Name",
-      width: 180,
+      width: 280,
     },
     {
       field: "email_address",
       headerName: "Email Address",
-      width: 250,
+      width: 540,
     },
     {
       field: "grade",
       headerName: "Current Grade",
-      width: 160,
+      width: 200,
     },
     {
       field: "attendance",
       headerName: "Average Attendance",
-      width: 170,
+      width: 190,
     },
   ];
 
