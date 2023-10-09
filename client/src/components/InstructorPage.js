@@ -26,7 +26,7 @@ function InstructorPage() {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    fetch(`/instructors/${id}`).then((r) => {
+    fetch(`https://school-pwo2.onrender.com/instructors/${id}`).then((r) => {
       if (r.ok) {
         r.json().then((instructor) =>
           setInstructor({ data: instructor, error: null, status: "resolved" })
@@ -37,7 +37,7 @@ function InstructorPage() {
         );
       }
     });
-    fetch(`/instructor_units/${id}`).then((r) => {
+    fetch(`https://school-pwo2.onrender.com/instructor_units/${id}`).then((r) => {
       if (r.ok) {
         r.json().then((units) => setUnits(units));
       }

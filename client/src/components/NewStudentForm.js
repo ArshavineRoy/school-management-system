@@ -17,7 +17,7 @@ function NewStudentForm() {
   });
 
   function handleSubmit(values, { setSubmitting, resetForm }) {
-    fetch("/students", {
+    fetch("https://school-pwo2.onrender.com/students", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

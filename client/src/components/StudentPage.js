@@ -24,7 +24,7 @@ function Student() {
   const [ units, setUnits] = useState([]);
 
   useEffect(() => {
-    fetch(`/students/${id}`).then((r) => {
+    fetch(`https://school-pwo2.onrender.com/students/${id}`).then((r) => {
       if (r.ok) {
         r.json().then((student) =>
           setStudent({ data: student, error: null, status: "resolved" })
@@ -35,7 +35,7 @@ function Student() {
         );
       }
     });
-    fetch(`/student_units/${id}`).then((r) => {
+    fetch(`https://school-pwo2.onrender.com/student_units/${id}`).then((r) => {
       if (r.ok) {
         r.json().then((units) =>
         setUnits(units)

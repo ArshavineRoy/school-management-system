@@ -32,7 +32,7 @@ function AdminPage() {
   };
 
   const handleUpdateStudent = (email) => {
-    fetch(`/students/${email}`).then((r) => {
+    fetch(`https://school-pwo2.onrender.com/students/${email}`).then((r) => {
       if (r.ok) {
         r.json().then((student) => {
           setName(student.name);
@@ -47,7 +47,7 @@ function AdminPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch(`/students/${student.email_address}`, {
+    fetch(`https://school-pwo2.onrender.com/students/${student.email_address}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ function AdminPage() {
       "Are you sure you want to delete this student?"
     );
     if (confirmDelete) {
-      fetch(`/students/${email}`, {
+      fetch(`https://school-pwo2.onrender.com/students/${email}`, {
         method: "DELETE",
       })
         .then((response) => {
@@ -111,7 +111,7 @@ function AdminPage() {
       "Are you sure you want to delete this instructor?"
     );
     if (confirmDelete) {
-      fetch(`/instructors/${email}`, {
+      fetch(`https://school-pwo2.onrender.com/instructors/${email}`, {
         method: "DELETE",
       })
         .then((response) => {
@@ -136,7 +136,7 @@ function AdminPage() {
       "Are you sure you want to delete this unit?"
     );
     if (confirmDelete) {
-      fetch(`/units/${code}`, {
+      fetch(`https://school-pwo2.onrender.com/units/${code}`, {
         method: "DELETE",
       })
         .then((response) => {

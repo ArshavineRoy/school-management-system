@@ -11,27 +11,14 @@ from flask_restx import Api, Resource, Namespace, fields
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
+from flask_cors import CORS
 
 from faker import Faker
 
 fake = Faker()
 
-app = Flask(
-    __name__,
-    static_url_path='',
-    static_folder='../client/build',
-    template_folder='../client/build'
-)
-
-@app.errorhandler(404)
-def not_found(e):
-    return render_template("index.html")
-
-@app.route("/")
-@app.route("/<path:path>")
-def catch_all(path=""):
-    return send_file("path/to/your/index.html")
-
+app = Flask(__name__)
+CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school.db'
 app.config['SECRET_KEY'] = 'dc5e38b62c7f0e63e0c8718e'
@@ -109,6 +96,12 @@ login_model = api.model("Login", {
     "password": fields.String(required=True),
     "role": fields.String(required=True),
 })
+
+@ns.route("/")
+class Home(Resource):
+
+    def get(self):
+        return {"Weolcome": "This is the BAMAC school management API."}
 
 @ns.route("/students")
 class Students(Resource):
