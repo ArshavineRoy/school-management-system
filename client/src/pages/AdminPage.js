@@ -405,7 +405,7 @@ function AdminPage() {
       <TopHeader />
       <Hero
         title={title}
-        description=<div style={{ whiteSpace: "pre-line" }}>{description}</div>
+        description=<span style={{ whiteSpace: "pre-line" }}> {description}</span>
         image={image}
       />
 

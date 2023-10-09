@@ -72,7 +72,6 @@ function Student() {
   const averageAttendance = (student.attendance / 100) * 100;
 
 
-console.log (student)
   return (
     <>
     <div>
