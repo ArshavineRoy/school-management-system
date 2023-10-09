@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template, send_file
 from flask_migrate import Migrate
 from models.dbconfig import db
 from models.unit import Unit
@@ -16,7 +16,22 @@ from faker import Faker
 
 fake = Faker()
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_url_path='',
+    static_folder='../client/build',
+    template_folder='../client/build'
+)
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("index.html")
+
+@app.route("/")
+@app.route("/<path:path>")
+def catch_all(path=""):
+    return send_file("path/to/your/index.html")
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school.db'
 app.config['SECRET_KEY'] = 'dc5e38b62c7f0e63e0c8718e'
