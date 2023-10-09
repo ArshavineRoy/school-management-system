@@ -35,7 +35,7 @@ python-dateutil
 python-dotenv
 pytz
 referencing
-rpds-py
+# rpds-py
 six
 SQLAlchemy
 SQLAlchemy-serializer
