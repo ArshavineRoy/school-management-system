@@ -1,82 +1,97 @@
 # School Management System
 
-## Problem Statement
+A simple, modern, and user-centric React-Flask fullstack School Management System dashboard.
 
-In today's rapidly evolving educational landscape, the need for an efficient, comprehensive, and technologically advanced School Management System has become paramount. Educational institutions, from schools to higher education, face a myriad of challenges in managing administrative tasks, fostering communication, and ensuring the highest quality of education. The existing manual and fragmented processes are no longer sufficient to address these challenges.
+![Admin Dashboard](./client/public/assets/admin.png)
 
-The goal of this project is to develop a modern and user-centric School Management System that caters to the needs of administrators, teachers, students, and parents.
+![Update Student](./client/public/assets/update-student.png)
 
-## Solution
+## Features
 
-Design and develop a comprehensive School Management System that addresses the aforementioned challenges. This will be a centralized platform that streamlines administrative processes, enhances communication and collaboration, supports effective academic planning, ensures data security and accessibility. Additionally, it will provide users with a user-friendly and mobile-responsive interface, making it accessible and efficient for all stakeholders. The system will be scalable and customized to meet the unique needs of educational institutions of various sizes and levels.
+- User Registration and Authentication
+- Role-Specific Dashboards
+- Attendance Monitoring
+- Academic Gradebook
+- User Entity Management
+- JWT Token-Based Authentication
+- Full CRUD Functionality
+- Enhanced User Security
+- Seamless SQLite Database Integration
 
-## MVP (Minimum Viable Product)
+> ----------------
+> **NB: Use the following accounts to test the application:**
+>
+> - Admin - admin@test.com
+> - Instructor - instructor@test.com
+> - Student - student@test.com
+>
+> **Password for these test accounts: 123456**
 
-- Landing page
-- Login Page
-- Student registration form
-- Course page
-  - Course registration form
-  - Course listings
-- Teachers page
-  - List of courses they teach
-- Registration page
-  - Register students
-  - Remove students
-  - Update student info
 
-## Technologies Used
+## Setup
 
-### Frontend
+### 1. Clone the repository
 
-- React.js
-- React Router
+```txt
+git clone https://github.com/ArshavineRoy/school-management-system
+```
 
-### Backend
+### 2. Navigate to the project's directory
 
-- Flask
-- SQLAlchemy
-- Flask-Migrate
-- JWT (JSON Web Tokens)
+```txt
+cd school-management-system
+```
 
----
+### 3. Install required dependencies
 
-## SDFT-05 PHASE 4 PROJECT REQUIREMENTS
+```python
+pipenv install
 
-Welcome to project week. It is time to put together a project that accumulates all your skills from the beginning of the course to this point. This week, you will be required to work in teams and develop full-stack web applications.
+npm install --prefix client
+```
 
-## Project Overview
+### 4. Activate the virtual environment for the Flask app
 
-This document provides a detailed description of what the project is expected to adhere to.
+```python
+pipenv shell
+```
 
-### Minimum Viable Product
+### 5. Run the Flask server
 
-#### Single Page Client Application
+You can run the Flask API on [`localhost:5555`](http://localhost:5555) by running:
 
-- Your client application should be built using the React library.
-- You should have at least 8 routes within your application.
-- You should have at least 5 of your app routes protected. (Protected routes are ones that require some form of authentication needed before accessing them)
-- You should allow the user to reset their password if they have forgotten it.
+```sh
+python server/app.py
+```
 
-#### Backend REST API
+### 6. In another terminal, run the React client from the root
 
-- You should have at least 8 endpoints. (At least 2 for each of the following methods: POST, GET, PUT, DELETE)
-- At least 5 of your endpoints should require the user to be logged in in order to access them.
-- You should have at least 4 database models, each model should have at least 4 columns excluding the unique identifier.
-- Within your database schema, have at least two (2); one-to-many relationship(s)
-- Within your database schema, have at least one(1); many-to-many relationship(s)
+You can run your React app on [`localhost:3000`](http://localhost:3000) by running:
 
-### Technical Requirements
+```sh
+npm start --prefix client
+```
 
-- Every single repository should have a detailed README file explaining how to set up the codebase upon cloning/forking.
-- Use JWT for authentication.
-- You should have regular git commits, and the messages should be clear and concise.
-- Your application must be deployed and accessible through a remote URL. (You can choose whichever deployment platform you wish)
-- Your project should be structured in an organized manner.
-- Your web application should have proper styling. Ensure it looks professional and clean.
-- Your app must be a REACT frontend that accesses data from your FLASK API. All client and API interactions should be handled asynchronously and use JSON as the communication format.
-- Your entire app must run on a single page. There should be NO redirects. In other words, your project will contain a single HTML file.
-- Follow good coding practices. Keep your code DRY (Do not repeat yourself) by utilizing functions to abstract repetitive code.
-- Your repository should include a license. [Adding a license to a repository - GitHub Docs](https://docs.github.com/en/enterprise/2.22/admin/enterprise-management/managing-site-policy-for-your-github-enterprise-server-instance/adding-a-license-to-a-repository)
-- Your project MVP MUST be completed within the stipulated timeline.
-- Since this is a group project, you are expected to contribute to a single repository. You can use this page to learn more about this: [Git Remote | Atlassian Git Tutorial](https://www.atlassian.com/git/tutorials/syncing)
+## Acknowledgements
+
+We would like to express our gratitude to the open-source community and all the developers whose libraries and tools have made this project possible.
+
+Thank you for using this school management system! We hope it helps you on your management journey. 🚀
+
+## Authors & License
+
+Authored by:
+
+[Arshavine Waema](https://github.com/ArshavineRoy)
+
+[Mercy Chepchirchir](https://github.com/Mercy-chepchirchir)
+
+[Ann Mwanzia](https://github.com/Itsannm)
+
+[Mukoya Darius](https://github.com/mukoyadariu)
+
+[Brian Baraza](https://github.com/BrianBaraza23)
+
+[Collins Kipkorir](https://github.com/kipkorir73)
+
+Licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.

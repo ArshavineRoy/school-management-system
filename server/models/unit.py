@@ -8,11 +8,10 @@ class Unit(db.Model):
     unit_code = db.Column(db.String(10), unique=True)
     name = db.Column(db.String(100))
     
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
-    instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    instructor = db.relationship('Instructor', back_populates='students')
-    student = db.relationship('Student', back_populates='instructors')
+    students = db.relationship('Student', backref='unit')
 
 
     def __repr__(self):

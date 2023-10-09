@@ -14,7 +14,8 @@ class Instructor(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    students = db.relationship('Unit', back_populates='instructor')
+    students = db.relationship('Student', backref='instructor')
+
     
     role = db.relationship('Role', backref='instructors')
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))

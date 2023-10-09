@@ -21,6 +21,9 @@ pip = "*"
 install = "*"
 sqlalchemy-serializer = "*"
 faker = "*"
+jwt = "*"
+pyjwt = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 

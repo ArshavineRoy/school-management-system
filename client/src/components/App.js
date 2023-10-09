@@ -1,21 +1,24 @@
-import '../App.css';
+import { Route, Routes, Navigate } from "react-router-dom";
+import "../App.css";
+import InstructorPage from "./InstructorPage";
+import RegisterPage from "../pages/RegisterPage";
+import AdminPage from "../pages/AdminPage";
+import LoginPage from "../pages/LoginPage";
+import Student from "./StudentPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          School Management System
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Happy Coding * _ *
-        </a>
-      </header>
+    <div>
+      <main>
+        <Routes>
+          <Route path="/" element={ <LoginPage /> } />
+          <Route path="/register" element={ <RegisterPage />} />
+          <Route path="/admins/:id" element={ <AdminPage /> } />
+          <Route path="/students/:id" element={ <Student />} />
+          <Route path="/instructors/:id" element={ <InstructorPage />} />
+          <Route path="/*" element={ <Navigate to="/" /> } />
+        </Routes>
+      </main>
     </div>
   );
 }
