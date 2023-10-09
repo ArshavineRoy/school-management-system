@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React from "react";
 import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
@@ -10,6 +10,10 @@ import { useAuthorization } from "../components/Authorize";
 
 function InstructorPage() {
   useAuthorization([2]);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const userRole = localStorage.getItem("userRole");
+  const userId = localStorage.getItem("userId");
 
   const [{ data: instructor, error, status }, setInstructor] = useState({
     data: null,
@@ -19,7 +23,35 @@ function InstructorPage() {
   const [units, setUnits] = useState([]);
   const [students, setStudents] = useState([]);
 
-  const { id } = useParams();
+  useEffect(() => {
+    fetch(`/instructors/${id}`).then((r) => {
+      if (r.ok) {
+        r.json().then((instructor) =>
+          setInstructor({ data: instructor, error: null, status: "resolved" })
+        );
+      } else {
+        r.json().then((err) =>
+          setInstructor({ data: null, error: err.error, status: "rejected" })
+        );
+      }
+    });
+    fetch(`/instructor_units/${id}`).then((r) => {
+      if (r.ok) {
+        r.json().then((units) => setUnits(units));
+      }
+    });
+  }, [id]);
+
+  const handleGetStudents = (students) => {
+    setStudents(students);
+  };
+
+  if (parseInt(userId) !== parseInt(id) || parseInt(userRole) !== 2) {
+
+    navigate(`/instructors/${userId}`);
+
+    return null; // prevents rendering this component
+  }
 
   const units_columns = [
     {
@@ -76,29 +108,6 @@ function InstructorPage() {
       width: 190,
     },
   ];
-
-  useEffect(() => {
-    fetch(`/instructors/${id}`).then((r) => {
-      if (r.ok) {
-        r.json().then((instructor) =>
-          setInstructor({ data: instructor, error: null, status: "resolved" })
-        );
-      } else {
-        r.json().then((err) =>
-          setInstructor({ data: null, error: err.error, status: "rejected" })
-        );
-      }
-    });
-    fetch(`/instructor_units/${id}`).then((r) => {
-      if (r.ok) {
-        r.json().then((units) => setUnits(units));
-      }
-    });
-  }, [id]);
-
-  const handleGetStudents = (students) => {
-    setStudents(students);
-  };
 
   if (status === "pending") return <h1>Loading...</h1>;
   if (status === "rejected") return <h1>Error: {error.error}</h1>;
