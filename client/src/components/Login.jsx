@@ -116,6 +116,7 @@ const Login = () => {
                     type="email"
                     id="email"
                     name="email"
+                    autoComplete="username"
                     className="w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300"
                   />
                   <ErrorMessage name="email" component="div" className="text-red-500 text-xs" />
@@ -126,6 +127,7 @@ const Login = () => {
                     type="password"
                     id="password"
                     name="password"
+                    autoComplete="current-password"
                     className="w-full p-2 rounded-2xl border outline-none focus:outline-none focus:border-green-300"
                   />
                   <ErrorMessage name="password" component="div" className="text-red-500 text-xs" />
