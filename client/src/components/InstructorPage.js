@@ -14,6 +14,8 @@ function InstructorPage() {
   const { id } = useParams();
   const userRole = localStorage.getItem("userRole");
   const userId = localStorage.getItem("userId");
+  const [selectedUnit, setSelectedUnit] = useState(null);
+
 
   const [{ data: instructor, error, status }, setInstructor] = useState({
     data: null,
@@ -42,9 +44,15 @@ function InstructorPage() {
     });
   }, [id]);
 
-  const handleGetStudents = (students) => {
+  const onViewStudents = (unitName, students) => {
+    setSelectedUnit(unitName);
     setStudents(students);
   };
+  
+  const tableTitle = selectedUnit
+  ? `${selectedUnit} Students`
+  : "List of Units";
+
 
   if (parseInt(userId) !== parseInt(id) || parseInt(userRole) !== 2) {
 
@@ -72,7 +80,8 @@ function InstructorPage() {
         return (
           <button
             className="bg-red-500 rounded px-3 py-2 text-white cursor-pointer"
-            onClick={() => handleGetStudents(params.row.students)}
+            // onClick={() => handleGetStudents(params.row.students)}
+            onClick={() => onViewStudents(params.row.name, params.row.students)}
           >
             View Students
           </button>
@@ -147,7 +156,7 @@ function InstructorPage() {
             grade: `${student.grade}%`,
             attendance: `${student.attendance}%`,
           }))}
-          title="List of Students"
+          title={tableTitle}
         />
       )}
     </div>
