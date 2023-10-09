@@ -21,10 +21,10 @@ pip = "*"
 install = "*"
 sqlalchemy-serializer = "*"
 faker = "*"
-jwt = "*"
-pyjwt = "*"
 flask-jwt-extended = "*"
 flask-cors = "*"
+flask-bcrypt = "*"
+pyjwt = "*"
 
 [dev-packages]
 

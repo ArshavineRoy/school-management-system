@@ -3,8 +3,7 @@ from models.role import Role
 from models.admin import Admin
 from models.instructor import Instructor
 from models.student import Student
-from werkzeug.security import generate_password_hash
-from app import app
+from app import app, bcrypt
 from models.dbconfig import db
 
 
@@ -66,7 +65,7 @@ if __name__ == "__main__":
         admin = Admin(
             name="admin",
             email_address="admin@test.com",
-            password_hash= generate_password_hash("123456", method='scrypt'),
+            password_hash= bcrypt.generate_password_hash("123456").decode('utf-8'),
             role_id=1,
         )
 
@@ -80,7 +79,7 @@ if __name__ == "__main__":
                 staff_number=fake.numerify(text=f'SN-####'),
                 name=fake.name(),
                 email_address=fake.ascii_free_email(),
-                password_hash= generate_password_hash("123456", method='scrypt'),
+                password_hash= bcrypt.generate_password_hash("123456").decode('utf-8'),
                 role_id=2,
             )
 
@@ -118,7 +117,7 @@ if __name__ == "__main__":
                     student_number=student_number,
                     name=fake.unique.name(),
                     email_address=fake.unique.ascii_free_email(),
-                    password_hash=generate_password_hash("123456", method='scrypt'),
+                    password_hash=bcrypt.generate_password_hash("123456").decode('utf-8'),
                     grade=random.randint(10, 100),
                     attendance=random.randint(0, 100),
                     role_id=3,

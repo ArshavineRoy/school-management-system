@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file
+from flask import Flask, request
 from flask_migrate import Migrate
 from models.dbconfig import db
 from models.unit import Unit
@@ -6,12 +6,11 @@ from models.role import Role
 from models.admin import Admin
 from models.instructor import Instructor
 from models.student import Student
-from flask_marshmallow import Marshmallow
 from flask_restx import Api, Resource, Namespace, fields
-from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
 from flask_cors import CORS
+from flask_bcrypt import Bcrypt
 
 from faker import Faker
 
@@ -19,6 +18,7 @@ fake = Faker()
 
 app = Flask(__name__)
 CORS(app)
+bcrypt = Bcrypt(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school.db'
 app.config['SECRET_KEY'] = 'dc5e38b62c7f0e63e0c8718e'
@@ -121,7 +121,7 @@ class Students(Resource):
             student_number=f'ECE211-{fake.unique.random_int(min=3000, max=6000)}/2023',
             name=data['name'],
             email_address=data['email_address'],
-            password_hash=generate_password_hash(data['password']),
+            password_hash=bcrypt.generate_password_hash(data['password']).decode('utf-8'),
             grade=0,
             attendance=0,
             role_id=3,
@@ -208,7 +208,7 @@ class Instructors(Resource):
             staff_number=f'SN-{fake.unique.random_int(min=1000, max=1500)}',
             name=data['name'],
             email_address=data['email_address'],
-            password_hash=generate_password_hash(data['password']),
+            password_hash=bcrypt.generate_password_hash(data['password']).decode('utf-8'),
             role_id=2,
         )
 
@@ -382,7 +382,6 @@ class Login(Resource):
         email = data['email']
         password = data['password']
         user_role = data['role']
-        
 
         # Check the role (student or instructor) and fetch the user
         if user_role == 'student':
@@ -390,7 +389,7 @@ class Login(Resource):
         elif user_role == 'instructor':
             user = Instructor.query.filter_by(email_address=email).first()
         elif user_role == 'admin':
-            user = Admin.query.filter_by(email_address=email).first()    
+            user = Admin.query.filter_by(email_address=email).first()
         else:
             return {"message": "Invalid role"}, 400
 
@@ -398,24 +397,26 @@ class Login(Resource):
             return {"message": "User not found"}, 404
 
         # Check the password
-        if not check_password_hash(user.password_hash, password):
+        if not bcrypt.check_password_hash(user.password_hash, password):
             return {"message": "Invalid password"}, 401
-        
+
         role_id = Role.query.get(user.role_id).id
 
+        try:
+            # Generate a JWT token using PyJWT
+            token = jwt.encode(
+                {
+                    'user_id': user.id,
+                    'role': role_id,
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=59)
+                },
+                app.config['SECRET_KEY'],
+                algorithm='HS256'
+            )
 
-        # Generate a JWT token
-        token = jwt.encode(
-            {
-                'user_id': user.id,
-                'role' : role_id,
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=59) 
-            },
-            app.config['SECRET_KEY'],
-            algorithm='HS256'
-        )
-
-        return {"message": "Login successful", "token": token, "id": user.id, "role": role_id}
+            return {"message": "Login successful", "token": token, "id": user.id, "role": role_id}
+        except Exception as e:
+            return {"message": "Failed to generate JWT", "error": str(e)}, 500
 
 
 if __name__ == '__main__':

@@ -7,6 +7,7 @@ click
 cryptography
 Faker
 Flask==2.2.5
+Flask-Bcrypt
 Flask-Cors==4.0.0
 Flask-JWT-Extended
 flask-marshmallow
@@ -23,7 +24,6 @@ itsdangerous
 Jinja2
 jsonschema
 jsonschema-specifications
-jwt
 Mako
 MarkupSafe
 marshmallow
