@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React from "react";
 import Hero from "../components/Hero";
 import TopHeader from "../components/TopHeader";
@@ -8,8 +8,13 @@ import ListTable from "../components/ListTable";
 import { useAuthorization } from "../components/Authorize";
 
 
+
 function Student() {
   useAuthorization([3]);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const userRole = localStorage.getItem("userRole");
+  const userId = localStorage.getItem("userId");
 
   const [{ data: student, error, status }, setStudent] = useState({
     data: null,
@@ -17,27 +22,6 @@ function Student() {
     status: "pending",
   });
   const [ units, setUnits] = useState([]);
-  const { id } = useParams();
-
-  const units_columns = [
-    {
-      field: "id",
-      headerName: "Unit Code",
-      width: 250,
-    },
-    { field: "name", 
-      headerName: "Unit Name", 
-      width: 700 
-    },
-    { field: "grade", 
-    headerName: "Grade", 
-    width: 240 
-    },
-    { field: "attendance", 
-    headerName: "Attendance", 
-    width: 250 
-    },
-  ];
 
   useEffect(() => {
     fetch(`/students/${id}`).then((r) => {
@@ -60,6 +44,32 @@ function Student() {
     });
   },[id]);
 
+  if (parseInt(userId) !== parseInt(id) || parseInt(userRole) !== 3) {
+
+    navigate(`/students/${userId}`);
+
+    return null; // prevents rendering this component
+  }
+
+  const units_columns = [
+    {
+      field: "id",
+      headerName: "Unit Code",
+      width: 250,
+    },
+    { field: "name", 
+      headerName: "Unit Name", 
+      width: 700 
+    },
+    { field: "grade", 
+    headerName: "Grade", 
+    width: 240 
+    },
+    { field: "attendance", 
+    headerName: "Attendance", 
+    width: 250 
+    },
+  ];
 
   if (status === "pending") return <h1>Loading...</h1>;
   if (status === "rejected") return <h1>Error: {error.error}</h1>;
