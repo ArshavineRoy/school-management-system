@@ -36,6 +36,12 @@ ns = Namespace("/")
 api.add_namespace(ns)
 
 
+admin_only_model = api.model("Admin", {
+    "name" : fields.String,
+    "email_address" : fields.String,
+    })
+
+
 student_model = api.model("Student", {
     "id" : fields.Integer,
     "name" : fields.String,
@@ -97,11 +103,12 @@ login_model = api.model("Login", {
     "role": fields.String(required=True),
 })
 
-@ns.route("/")
-class Home(Resource):
+@ns.route("/admins/<int:id>")
+class AdminsByID(Resource):
 
-    def get(self):
-        return {"Weolcome": "This is the BAMAC school management API."}
+    @ns.marshal_with(admin_only_model)
+    def get(self, id):
+        return Admin.query.get(id)
 
 @ns.route("/students")
 class Students(Resource):
