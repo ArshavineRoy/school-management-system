@@ -156,7 +156,7 @@ function AdminPage() {
 
   useEffect(() => {
     // Fetch students
-    fetch("/students")
+    fetch("https://school-pwo2.onrender.com/students")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -173,7 +173,7 @@ function AdminPage() {
       });
 
     // Fetch instructors
-    fetch("/instructors")
+    fetch("https://school-pwo2.onrender.com/instructors")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -188,7 +188,7 @@ function AdminPage() {
       });
 
     // Fetch units
-    fetch("/units")
+    fetch("https://school-pwo2.onrender.com/units")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
